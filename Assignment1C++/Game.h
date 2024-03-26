@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "ItemManager.h"
+#include "MoonManager.h"
+#include "RandomGenerator.h"
 
 class Game {
 private:
@@ -12,7 +14,9 @@ private:
     int day;
     std::string currentMoon;
     int remainingEmployees;
-    ItemManager itemManager;
+    ItemManager itemManeger;
+    MoonManager moonManager;
+    RandomGenerator randomGenerator;
 
 public:
     // Constructor

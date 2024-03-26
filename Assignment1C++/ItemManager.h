@@ -2,7 +2,7 @@
 #define ITEM_MANAGER_H
 
 #include <vector>
-#include "Item.h" // Assuming Item class is defined in Item.h
+#include "Item.h"
 
 class ItemManager {
 private:
