@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ItemManager.h"
 
 class Game {
 private:
@@ -6,6 +7,10 @@ private:
 	int balance;
 	int quota;
 	int day;
+	std::string currentMoon;
+	int remainingEmployees;
+	ItemManager itemManeger;
+
 	// Items[]
 
 public:
