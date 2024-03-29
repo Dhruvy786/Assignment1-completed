@@ -21,14 +21,14 @@ private:
 	MoonManager moonManager;
 	RandomGenerator randomGenerator;
 	GamePhase phase;
-	std::vector<Employee> employees;
+	//std::vector<Employee> employees;
 
 
 public:
-	Game(int balance, int quota) :
+	Game() :
 		cargoValue(0),
-		balance(balance),
-		quota(quota),
+		balance(0),
+		quota(0),
 		day(1),
 		currentMoon(""),
 		remainingEmployees(0),
@@ -38,7 +38,14 @@ public:
 		phase(GamePhase::Orbiting) {}
 
 	void initialiseGame() {
+		balance = 50;
+		quota = 150;
+		currentMoon = "Corporation";
+		remainingEmployees = 4;
 
+		show_welcome_screen();
+
+		phase = GamePhase::Orbiting;
 	}
 
 	int define_moons() {}
