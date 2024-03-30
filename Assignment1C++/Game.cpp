@@ -51,7 +51,16 @@ public:
 	int define_moons() {
 
 	}
-	int define_items() {}
+	int define_items() {
+		std::cout << "Available Items:\n";
+		std::cout << "Flashlight // Price: $60\n";
+		std::cout << "* Shovel // Price: $100\n";
+		std::cout << "* Pro-flashlight // Price: $200\n";
+		std::cout << "* Teleporter // Price: $300\n";
+		std::cout << "* Inverse-teleporter // Price: $400\n";
+		std::cout << "* Backpack // Price: $500\n";
+		std::cout << "* Hydraulics-Mk2 // Price: $1000\n";
+	}
 
 	void show_welcome_screen() {
 		std::cout << "    ___               _ _           ___                 \n" \
