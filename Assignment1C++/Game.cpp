@@ -51,15 +51,10 @@ public:
 	int define_moons() {
 
 	}
-	int define_items() {
-		std::cout << "Available Items:\n";
-		std::cout << "Flashlight // Price: $60\n";
-		std::cout << "* Shovel // Price: $100\n";
-		std::cout << "* Pro-flashlight // Price: $200\n";
-		std::cout << "* Teleporter // Price: $300\n";
-		std::cout << "* Inverse-teleporter // Price: $400\n";
-		std::cout << "* Backpack // Price: $500\n";
-		std::cout << "* Hydraulics-Mk2 // Price: $1000\n";
+	std::vector<std::string> define_items() {
+		std::vector<std::string> commands = itemManager.show_store();
+
+		return commands;
 	}
 
 	void show_welcome_screen() {
@@ -84,6 +79,7 @@ public:
 					 "To see the list of items you've already bought.\n\n" << std::endl;
 	}
 
+	// Checks if the command is in the array of commands available
 	bool check_command(std::string& command, const std::vector<std::string>& commands) {
 		for (const auto& valid_command : commands) {
 			if (command == valid_command) {
@@ -94,9 +90,22 @@ public:
 		return false;
 	}
 
-	int run_game() {}
+	int run_game() {
+		show_welcome_screen();
+		std::vector<std::string> startingCommands = { "moons", "store", "inventory" };
+		std::string chosenCommand = read_and_dispatch_commands(startingCommands);
+		// Buy an item
+		if (chosenCommand == "store") {
+			std::vector<std::string> items = define_items();
+			chosenCommand = read_and_dispatch_commands(items);
+			int newBalance = itemManager.buy_item(chosenCommand);
+			update_balance(newBalance);
+		}
+	}
+
 	int run_day_loop() {}
 	
+	// Reads the command and returns the chosen command 
 	std::string read_and_dispatch_commands(const std::vector<std::string>& commands) {
 		std::string command;
 
@@ -122,9 +131,11 @@ public:
 	int handle_exit_command() {
 
 	}
-	int update_balance(int amount) {
 
+	void update_balance(int amount) {
+		balance = balance + amount;
 	}
+
 	int update_current_moon(std::string moon_name) {
 
 	}

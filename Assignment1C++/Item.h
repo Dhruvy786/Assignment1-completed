@@ -3,11 +3,13 @@
 
 class Item {
 private:
-
+    int price;
 
 public:
     // Constructor and Destructor
     Item();
+
+    int getPrice();
 
 };
 
