@@ -53,13 +53,13 @@ public:
 	}
 	int define_items() {}
 
-	int show_welcome_screen() {
+	void show_welcome_screen() {
 		std::cout << "    ___               _ _           ___                 \n" \
 					 "   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
 					 "  / /\\ / _ \\/ _` |/ _` | | | | |  / /  / _ \\| '__| '_ \\ \n" \
 					 " / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
 					 "/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
-					 "                          |___/                  |_|    " << std::endl;
+					 "                          |___/                  |_|    \n" << std::endl;
 		std::cout << "Welcome!\n"
 					 "We trust you will be a great asset to the corporation!\n\n"
 					 "============ = DAY 1 ============ =\n"
@@ -72,22 +72,30 @@ public:
 					 "> STORE\n"
 					 "To see the company store's selection of useful items.\n\n"
 					 "> INVENTORY\n"
-					 "To see the list of items you've already bought.\n\n" 
-					 "> " << std::endl;
+					 "To see the list of items you've already bought.\n\n" << std::endl;
+	}
 
-		return 0;
+	bool check_command(std::string& command, const std::vector<std::string>& commands) {
+		for (const auto& valid_command : commands) {
+			if (command == valid_command) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	int run_game() {}
 	int run_day_loop() {}
-	std::string read_and_dispatch_commands() {
+	
+	std::string read_and_dispatch_commands(const std::vector<std::string>& commands) {
 		std::string command;
 
 		while (true) {
-			std::cout << "Enter a command: ";
+			std::cout << "> ";
 			std::cin >> command;
 
-			if (command == "LAND" || command == "LEAVE" || command == "EXIT") {
+			if (check_command(command, commands)) {
 				return command;
 			}
 			else {
@@ -96,13 +104,29 @@ public:
 		}
 	}
 
-	int handle_land_command() {}
-	int handle_leave_command() {}
-	int handle_exit_command() {}
-	int update_balance(int amount) {}
-	int update_current_moon(std::string moon_name) {}
-	int update_game_phase(GamePhase phase) {}
-	int update_cargo_value(int amount) {}
-	int update_alive_employees(int count) {}
+	int handle_land_command() {
+
+	}
+	int handle_leave_command() {
+
+	}
+	int handle_exit_command() {
+
+	}
+	int update_balance(int amount) {
+
+	}
+	int update_current_moon(std::string moon_name) {
+
+	}
+	int update_game_phase(GamePhase phase) {
+
+	}
+	int update_cargo_value(int amount) {
+
+	}
+	int update_alive_employees(int count) {
+
+	}
 
 };
