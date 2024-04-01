@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "AbstractMoon.h"
 
 class MoonManager {
@@ -16,14 +17,27 @@ public:
                      "To route the autopilot to a moon, use the word ROUTE.\n"
                      "---------------------------------------\n" << std::endl;
         for (const auto& moon : moons) {
-            std::cout << "* " << moon->getName() << " (" << moon->getWeather() << ")\n";
+            std::cout << "* " << moon->name() << " (" << moonWeatherToString(moon->getWeather()) << ")\n";
         }
         std::cout << std::endl;
     }
 
+    std::string moonWeatherToString(AbstractMoon::MoonWeather weather) {
+        switch (weather) {
+        case AbstractMoon::MoonWeather::Clear:
+            return "";
+        case AbstractMoon::MoonWeather::Flooded:
+            return "Flooded";
+        case AbstractMoon::MoonWeather::Eclipsed:
+            return "Eclipsed";
+        case AbstractMoon::MoonWeather::Stormy:
+            return "Stormy";
+        }
+    }
+
     void route_to_moon(std::string moon_name) {
         for (const auto& moon : moons) {
-            if (moon->getName() == moon_name) {
+            if (moon->name() == moon_name) {
                 std::cout << "Routing to " << moon_name << "...\n";
                 return;
             }
@@ -35,7 +49,7 @@ public:
         std::vector<std::string> moonNames;
 
         for (const auto& moon : moons) {
-            moonNames.push_back(moon->getName());
+            moonNames.push_back(moon->name());
         }
 
         return moonNames;

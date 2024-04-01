@@ -1,26 +1,18 @@
 #include <iostream>
 #include "AbstractMoon.h"
 
-class AbstractMoon {
-private:
-	std::string name;
-	std::string weather;
+AbstractMoon::AbstractMoon(std::string moonName) {
+    this->moonName = moonName;
+    setWeather(MoonWeather::Clear);
+}
 
-public:
-	AbstractMoon(std::string moonName) {
-		name = moonName;
-		weather = "";
-	};
+const std::string& AbstractMoon::name() { 
+    return moonName;
+}
 
-	std::string getName() {
-		return name;
-	}
+AbstractMoon::MoonWeather AbstractMoon::getWeather() {
+    return weather;
+}
 
-	std::string getWeather() {
-		return weather;
-	}
-
-	void setWeather(std::string newWeather) {
-		weather = newWeather;
-	}
-};
+void AbstractMoon::setWeather(MoonWeather weather) {
+    this->weather = weather;

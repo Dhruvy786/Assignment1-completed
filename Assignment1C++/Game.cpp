@@ -116,7 +116,8 @@ public:
 			moonManager.show_moons();
 			std::cout << "Balance: " << balance << std::endl;
 			*cmdptr = read_and_dispatch_commands(moonManager.getMoons());
-			update_game_phase("Orbiting");
+			currentMoon = *cmdptr;
+			update_game_phase(GamePhase::Orbiting);
 			*cmdptr = read_and_dispatch_commands({ "land", "leave" });
 			if (*cmdptr == "land") {
 				// Land on moon
@@ -169,7 +170,7 @@ public:
 	}
 
 	int handle_land_command() {
-
+		update_game_phase(GamePhase::Landed);
 	}
 	int handle_leave_command() {
 
@@ -186,7 +187,8 @@ public:
 
 	}
 	int update_game_phase(GamePhase phase) {
-
+		this->phase = phase;
+		return 0;
 	}
 	int update_cargo_value(int amount) {
 

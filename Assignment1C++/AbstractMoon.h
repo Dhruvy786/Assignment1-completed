@@ -1,24 +1,28 @@
-#ifndef ABSTRACT_MOON_H
-#define ABSTRACT_MOON_H
+// AbstractMoon.h
+#ifndef ABSTRACTMOON_H
+#define ABSTRACTMOON_H
 
-#include <vector>
-#include "AbstractMoon.h"
+#include <iostream>
 
 class AbstractMoon {
+public:
+    enum class MoonWeather {
+        Clear = 0,
+        Flooded,
+        Eclipsed,
+        Stormy
+    };
+
 private:
-    std::string name;
-    std::string weather;
+    std::string moonName; // Change variable name to avoid conflict
+    MoonWeather weather;
 
 public:
-    // Constructor and Destructor
     AbstractMoon(std::string moonName);
 
-    std::string getName();
-
-    std::string getWeather();
-
-    void setWeather(std::string newWeather);
-
+    const std::string& name();
+    MoonWeather getWeather();
+    void setWeather(MoonWeather weather);
 };
 
-#endif // ABSTRACT_MOON_H
+#endif // ABSTRACTMOON_H
