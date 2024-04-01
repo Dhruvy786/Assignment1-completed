@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <sstream>
 #include "ItemManager.h"
 #include "MoonManager.h"
 #include "RandomGenerator.h"
@@ -66,7 +68,7 @@ public:
 					 "                          |___/                  |_|    \n" << std::endl;
 		std::cout << "Welcome!\n"
 					 "We trust you will be a great asset to the corporation!\n\n"
-					 "============ = DAY 1 ============ =\n"
+					 "=============" << day << "============= \n"
 					 "Current cargo value : $" << cargoValue << "\n"
 					 "Current balance : $" << balance << "\n"
 					 "Current quota : $" << quota << "(3 days left to meet quota)\n"
@@ -94,22 +96,32 @@ public:
 		show_welcome_screen();
 		std::vector<std::string> startingCommands = { "moons", "store", "inventory" };
 		std::string chosenCommand = read_and_dispatch_commands(startingCommands);
+		std::string* cmdptr = &chosenCommand;
+
 		// Buy an item
-		if (chosenCommand == "store") {
+		if (*cmdptr == "store") {
 			std::vector<std::string> items = define_items();
-			chosenCommand = read_and_dispatch_commands(items);
-			int newBalance = itemManager.buy_item(chosenCommand);
+			*cmdptr = read_and_dispatch_commands(items);
+			int newBalance = itemManager.buy_item(*cmdptr);
 			update_balance(newBalance);
 		}
 
 		// Show inventory
-		else if (chosenCommand == "invetory") {
-
+		else if (*cmdptr == "inventory") {
+			// Handle inventory command
 		}
 
 		// Go to moons
-		else if (chosenCommand == "moons") {
-
+		else if (*cmdptr == "moons") {
+			moonManager.show_moons();
+			std::cout << "Balance: " << balance << std::endl;
+			*cmdptr = read_and_dispatch_commands(moonManager.getMoons());
+			update_game_phase("Orbiting");
+			*cmdptr = read_and_dispatch_commands({ "land", "leave" });
+			if (*cmdptr == "land") {
+				// Land on moon
+				handle_land_command();
+			}
 		}
 	}
 
@@ -118,16 +130,40 @@ public:
 	// Reads the command and returns the chosen command 
 	std::string read_and_dispatch_commands(const std::vector<std::string>& commands) {
 		std::string command;
-
+		std::istringstream iss(command);
+		std::vector<std::string> tokens;
+		std::string token;
+		while (iss >> token) {
+			tokens.push_back(token);
+		}
 		while (true) {
 			std::cout << "> ";
 			std::cin >> command;
-
-			if (check_command(command, commands)) {
-				return command;
+			// Check if the first word is "route" and the second word is a valid moon name
+			if (tokens.size() >= 2 && tokens[0] == "route") {
+				std::string moon_name = tokens[1];
+				// Convert moon_name to lowercase for case-insensitive comparison
+				std::transform(moon_name.begin(), moon_name.end(), moon_name.begin(), ::tolower);
+				// Check if the moon_name exists in the moons vector
+				if (std::find(commands.begin(), commands.end(), moon_name) != commands.end()) {
+					// Valid route command
+					std::cout << "Routing to " << moon_name << std::endl;
+					std::cout << "Now orbiting " << moon_name << ". Use the LAND command to land." << std::endl;
+					// Proceed with routing logic
+					return moon_name;
+				}
+				else {
+					// Invalid moon name
+					std::cout << "Invalid moon name: " << moon_name << std::endl;
+				}
 			}
 			else {
-				std::cout << "Invalid command. Please enter a valid command.\n" << std::endl;
+				if (check_command(command, commands)) {
+					return command;
+				}
+				else {
+					std::cout << "Invalid command. Please enter a valid command.\n" << std::endl;
+				}
 			}
 		}
 	}

@@ -6,15 +6,19 @@ private:
     std::vector<AbstractMoon*> moons;
 
 public:
-    void registerMoon(AbstractMoon* moon) {
+    void registerMoon(std::string moonName) {
+        AbstractMoon* moon = new AbstractMoon(moonName);
         moons.push_back(moon);
     }
 
     void show_moons() {
-        std::cout << "Available moons:\n";
+        std::cout << "Welcome to the exomoons catalogue.\n"
+                     "To route the autopilot to a moon, use the word ROUTE.\n"
+                     "---------------------------------------\n" << std::endl;
         for (const auto& moon : moons) {
-            std::cout << "* " << moon->getName() << " " << moon->getWeather() << "\n";
+            std::cout << "* " << moon->getName() << " (" << moon->getWeather() << ")\n";
         }
+        std::cout << std::endl;
     }
 
     void route_to_moon(std::string moon_name) {
@@ -25,5 +29,15 @@ public:
             }
         }
         std::cout << "Error: Moon '" << moon_name << "' not found!\n";
+    }
+
+    std::vector<std::string> getMoons() {
+        std::vector<std::string> moonNames;
+
+        for (const auto& moon : moons) {
+            moonNames.push_back(moon->getName());
+        }
+
+        return moonNames;
     }
 };

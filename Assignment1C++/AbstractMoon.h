@@ -11,7 +11,7 @@ private:
 
 public:
     // Constructor and Destructor
-    AbstractMoon();
+    AbstractMoon(std::string moonName);
 
     std::string getName();
 
