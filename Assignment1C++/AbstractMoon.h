@@ -6,10 +6,18 @@
 
 class AbstractMoon {
 private:
+    std::string name;
+    std::string weather;
 
 public:
     // Constructor and Destructor
     AbstractMoon();
+
+    std::string getName();
+
+    std::string getWeather();
+
+    void setWeather(std::string newWeather);
 
 };
 

@@ -67,10 +67,10 @@ public:
 		std::cout << "Welcome!\n"
 					 "We trust you will be a great asset to the corporation!\n\n"
 					 "============ = DAY 1 ============ =\n"
-					 "Current cargo value : $0\n"
-					 "Current balance : $50\n"
-					 "Current quota : $150(3 days left to meet quota)\n"
-					 "Currently orbiting : Corporation\n\n"
+					 "Current cargo value : $" << cargoValue << "\n"
+					 "Current balance : $" << balance << "\n"
+					 "Current quota : $" << quota << "(3 days left to meet quota)\n"
+					 "Currently orbiting : " << currentMoon << "\n\n"
 					 "> MOONS\n"
 					 "To see the list of moons the autopilot can route to.\n\n"
 					 "> STORE\n"
@@ -100,6 +100,16 @@ public:
 			chosenCommand = read_and_dispatch_commands(items);
 			int newBalance = itemManager.buy_item(chosenCommand);
 			update_balance(newBalance);
+		}
+
+		// Show inventory
+		else if (chosenCommand == "invetory") {
+
+		}
+
+		// Go to moons
+		else if (chosenCommand == "moons") {
+
 		}
 	}
 

@@ -13,13 +13,13 @@ public:
     void show_moons() {
         std::cout << "Available moons:\n";
         for (const auto& moon : moons) {
-            std::cout << "- " << moon->name() << "\n";
+            std::cout << "* " << moon->getName() << " " << moon->getWeather() << "\n";
         }
     }
 
     void route_to_moon(std::string moon_name) {
         for (const auto& moon : moons) {
-            if (moon->name() == moon_name) {
+            if (moon->getName() == moon_name) {
                 std::cout << "Routing to " << moon_name << "...\n";
                 return;
             }
