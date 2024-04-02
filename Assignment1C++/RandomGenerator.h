@@ -1,14 +1,19 @@
-#ifndef RANDOM_GENERATOR_H
-#define RANDOM_GENERATOR_H
+// RandomGenerator.h
+
+#ifndef RANDOMGENERATOR_H
+#define RANDOMGENERATOR_H
+
+#include <random>
 
 class RandomGenerator {
 private:
-
+    std::mt19937 generator;
 
 public:
-    // Constructor and Destructor
     RandomGenerator();
 
+    int generateInt(int A, int B);
+    float generateFloat();
 };
 
-#endif // RANDOM_GENERATOR_H
+#endif // RANDOMGENERATOR_H

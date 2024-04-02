@@ -1,10 +1,14 @@
 #include <iostream>
 #include <vector>
 #include "AbstractMoon.h"
+#include "Employee.h"
+#include "RandomGenerator.h" // Include RandomGenerator header
 
 class MoonManager {
 private:
     std::vector<AbstractMoon*> moons;
+    std::vector<Employee> employees;
+    RandomGenerator rd;
 
 public:
     MoonManager() {
@@ -12,6 +16,7 @@ public:
             registerMoon(i);
         }
     }
+
     void registerMoon(std::string moonName) {
         AbstractMoon* moon = new AbstractMoon(moonName);
         moons.push_back(moon);
@@ -23,12 +28,13 @@ public:
                 return moon;
             }
         }
+        return nullptr; // Return nullptr if moon not found
     }
 
     void show_moons() {
         std::cout << "Welcome to the exomoons catalogue.\n"
-                     "To route the autopilot to a moon, use the word ROUTE.\n"
-                     "---------------------------------------\n" << std::endl;
+            "To route the autopilot to a moon, use the word ROUTE.\n"
+            "---------------------------------------\n" << std::endl;
         for (const auto& moon : moons) {
             std::cout << "* " << moon->name() << " (" << moonWeatherToString(moon->getWeather()) << ")\n";
         }
@@ -66,5 +72,45 @@ public:
         }
 
         return moonNames;
+    }
+
+    std::vector<Employee> addEmployee(std::vector<Employee> employees,
+        int numExplorers,
+        double explorerBaseSurvivalChance,
+        int minScrapValue,
+        int maxScrapValue,
+        double explorerSurvivalChanceMultiplier,
+        double operatorSurvivalChanceMultiplier,
+        double scrapValueMultiplier,
+        double explorerSaveChance,
+        double lootRecoveryMultiplier) {
+        int numOperators = employees.size() - numExplorers;
+        int totalRevenue = 0;
+        int deadExplorers = 0;
+        int deadOperators = 0;
+
+        for (int i = 0; i < numExplorers; ++i) {
+            int revenue = rd.generateInt(minScrapValue * scrapValueMultiplier, maxScrapValue * scrapValueMultiplier);
+            double explorerSurvivalChance = explorerBaseSurvivalChance * explorerSurvivalChanceMultiplier;
+
+            if (rd.generateFloat() < explorerSurvivalChance) {
+                totalRevenue += revenue;
+            }
+            else if (rd.generateFloat() >= explorerSaveChance) {
+                totalRevenue += revenue * lootRecoveryMultiplier;
+                ++deadExplorers;
+            }
+        }
+
+        for (int i = 0; i < numOperators; ++i) {
+            if (rd.generateFloat() >= operatorSurvivalChanceMultiplier) {
+                ++deadOperators;
+            }
+        }
+
+        // Update the vector of employees (remove dead employees)
+        employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
+
+        return employees;
     }
 };

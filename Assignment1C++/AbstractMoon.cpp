@@ -13,3 +13,4 @@ AbstractMoon::MoonWeather AbstractMoon::getWeather() const {
 
 void AbstractMoon::setWeather(MoonWeather weather) {
     this->weather = weather;
+}

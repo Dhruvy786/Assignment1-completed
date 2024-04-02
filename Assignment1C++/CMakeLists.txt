@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (Assignment1C++ "Assignment1C++.cpp" "Assignment1C++.h" "Game.cpp"    "Game.h" "ItemManager.cpp" "ItemManager.h" "MoonManager.cpp" "MoonManager.h" "RandomGenerator.cpp" "RandomGenerator.h" "Item.cpp" "Item.h" "AbstractMoon.cpp" "AbstractMoon.h")
+add_executable (Assignment1C++ "Assignment1C++.cpp" "Assignment1C++.h" "Game.cpp"    "Game.h" "ItemManager.cpp" "ItemManager.h" "MoonManager.cpp" "MoonManager.h" "RandomGenerator.cpp" "RandomGenerator.h" "Item.cpp" "Item.h" "AbstractMoon.cpp" "AbstractMoon.h" "Employee.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Assignment1C++ PROPERTY CXX_STANDARD 20)

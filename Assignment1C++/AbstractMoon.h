@@ -3,6 +3,8 @@
 #define ABSTRACTMOON_H
 
 #include <iostream>
+#include "Employee.h"
+#include "RandomGenerator.h"
 
 class AbstractMoon {
 public:
@@ -14,7 +16,7 @@ public:
     };
 
 private:
-    std::string moonName; // Change variable name to avoid conflict
+    std::string moonName;
     MoonWeather weather;
 
 public:
@@ -23,6 +25,7 @@ public:
     const std::string& name();
     AbstractMoon::MoonWeather getWeather() const;
     void setWeather(MoonWeather weather);
+
 };
 
 #endif // ABSTRACTMOON_H
