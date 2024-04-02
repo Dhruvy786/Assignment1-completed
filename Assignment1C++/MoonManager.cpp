@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 #include "AbstractMoon.h"
 #include "Employee.h"
 #include "RandomGenerator.h" // Include RandomGenerator header
@@ -9,6 +10,13 @@ private:
     std::vector<AbstractMoon*> moons;
     std::vector<Employee> employees;
     RandomGenerator rd;
+    std::map<std::string, std::vector<float>> itemAndWeatherMap{
+        {"Corporation", {0.0f, 0.0f, 0.0f}},
+        {"Prototyping", {3.0f, 30.0f, 0.5f}},
+        {"Insurance", {5.0f, 50.0f, 0.45f}},
+        {"Pledge", {30.0f, 50.0f, 0.40f}},
+        {"Defence", {10.0f, 70.0f, 0.35f}}
+    };
 
 public:
     MoonManager() {
@@ -76,7 +84,7 @@ public:
 
     int addEmployee(std::vector<Employee> employees,
         int numExplorers,
-        double explorerBaseSurvivalChance,
+        double bsc,
         int minScrapValue,
         int maxScrapValue,
         double explorerSurvivalChanceMultiplier,
@@ -91,7 +99,7 @@ public:
 
         for (int i = 0; i < numExplorers; ++i) {
             int revenue = rd.generateInt(minScrapValue * scrapValueMultiplier, maxScrapValue * scrapValueMultiplier);
-            double explorerSurvivalChance = explorerBaseSurvivalChance * explorerSurvivalChanceMultiplier;
+            double explorerSurvivalChance = bsc * explorerSurvivalChanceMultiplier;
 
             if (rd.generateFloat() < explorerSurvivalChance) {
                 totalRevenue += revenue;

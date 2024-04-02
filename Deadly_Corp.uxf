@@ -1,0 +1,91 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>36</x><y>144</y><w>306</w><h>360</h></coordinates><panel_attributes>Game
+-
+- balance: int
+- current_moon: std::string
+- game_phase: enum {Orbiting, Landed}
+- cargo_value: int
+- alive_employees: int
+- item_manager: ItemManager
+- moon_manager: MoonManager
+- random_generator: RandomGenerator
+
+-
++ initialize_game() -&gt; void
++ define_moons() -&gt; void
++ define_items() -&gt; void
++ show_welcome_screen() -&gt; void
++ run_game() -&gt; void
++ run_day_loop() -&gt; void
++ read_and_dispatch_commands() -&gt; void
++ handle_land_command() -&gt; void
++ handle_leave_command() -&gt; void
++ handle_exit_command() -&gt; void
++ update_balance(amount: int) -&gt; void
++ update_current_moon(moon_name: std::string) -&gt; void
++ update_game_phase(phase: GamePhase) -&gt; void
++ update_cargo_value(amount: int) -&gt; void
++ update_alive_employees(count: int) -&gt; void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>558</x><y>144</y><w>234</w><h>117</h></coordinates><panel_attributes>ItemManager
+-
+- items: std::vector&lt;Item*&gt;
+
+-
++ registerItem(item: Item*) -&gt; void
++ show_inventory() -&gt; void
++ show_store() -&gt; void
++ buy_item(item_name: std::string) -&gt; void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>558</x><y>288</y><w>261</w><h>108</h></coordinates><panel_attributes>MoonManager
+-
+- moons: std::vector&lt;AbstractMoon*&gt;
+
+-
++ registerMoon(moon: AbstractMoon*) -&gt; void
++ show_moons() -&gt; void
++ route_to_moon(moon_name: std::string) -&gt; void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>558</x><y>540</y><w>315</w><h>144</h></coordinates><panel_attributes>AbstractMoon
+-
+- moon_name: std::string
+- weather_condition: enum {Clear, Flooded, Eclipsed, Stormy}
+
+-
++ name() const -&gt; std::string
++ print_welcome_message() -&gt; void
++ onDayBegin(g: Game&amp;) -&gt; void
++ sellCargo(g: Game&amp;, amount: int) -&gt; void
++ sendEmployees(g: Game&amp;, count: int) -&gt; void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>558</x><y>423</y><w>288</w><h>90</h></coordinates><panel_attributes>RandomGenerator
+-
+
+-
+
++ generate_random_integer(min: int, max: int) -&gt; int
++ generate_random_float(min: float, max: float) -&gt; float</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>153</x><y>594</y><w>189</w><h>63</h></coordinates><panel_attributes>Employee
+-
+
+-
++ die() -&gt; void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>369</x><y>9</y><w>171</w><h>108</h></coordinates><panel_attributes>Item
+-
+- name: std::string
+- price: int
+
+-
++ getName() const -&gt; std::string
++ getPrice() const -&gt; int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>333</x><y>180</y><w>243</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+has &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>333</x><y>324</y><w>243</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+has &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>333</x><y>450</y><w>243</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+has &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>810</x><y>342</y><w>99</w><h>306</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=5</panel_attributes><additional_attributes>10;10;90;10;90;310;70;310</additional_attributes></element><element><id>Relation</id><coordinates><x>531</x><y>54</y><w>351</w><h>162</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=*</panel_attributes><additional_attributes>290;150;370;150;370;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>234</x><y>495</y><w>45</w><h>117</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=0..*
+</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>288</x><y>306</y><w>702</w><h>432</h></coordinates><panel_attributes>lt=-
+m1=0..*
+m2=1
+&lt; manages</panel_attributes><additional_attributes>10;390;10;460;760;450;760;10;590;10</additional_attributes></element><element><id>Relation</id><coordinates><x>810</x><y>324</y><w>180</w><h>351</h></coordinates><panel_attributes>lt=-
+m1=5
+m2=1
+manages v</panel_attributes><additional_attributes>70;360;110;360;110;10;10;10</additional_attributes></element></diagram>
