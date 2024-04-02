@@ -18,11 +18,12 @@ public:
 private:
     std::string moonName;
     MoonWeather weather;
-    int minScrapValue;
-    int maxScrapValue;
+    float minScrapValue;
+    float maxScrapValue;
+    float baseSurvivalChance;
 
 public:
-    AbstractMoon(std::string moonName, int minScrapValue, int maxScrapValue);
+    AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance);
 
     const std::string& name();
     AbstractMoon::MoonWeather getWeather() const;

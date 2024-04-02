@@ -3,14 +3,14 @@
 #include <map>
 #include "AbstractMoon.h"
 #include "Employee.h"
-#include "RandomGenerator.h" // Include RandomGenerator header
+#include "RandomGenerator.h"
 
 class MoonManager {
 private:
     std::vector<AbstractMoon*> moons;
     std::vector<Employee> employees;
     RandomGenerator rd;
-    std::map<std::string, std::vector<float>> itemAndWeatherMap{
+    std::map<std::string, std::vector<float>> moonMap{
         {"Corporation", {0.0f, 0.0f, 0.0f}},
         {"Prototyping", {3.0f, 30.0f, 0.5f}},
         {"Insurance", {5.0f, 50.0f, 0.45f}},
@@ -26,7 +26,7 @@ public:
     }
 
     void registerMoon(std::string moonName) {
-        AbstractMoon* moon = new AbstractMoon(moonName);
+        AbstractMoon* moon = new AbstractMoon(moonName, moonMap[moonName][0], moonMap[moonName][1], moonMap[moonName][2]);
         moons.push_back(moon);
     }
 
