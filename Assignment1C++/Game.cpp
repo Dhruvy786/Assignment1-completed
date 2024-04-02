@@ -1,9 +1,12 @@
 #include <iostream>
 #include <algorithm>
 #include <sstream>
+#include <cstdlib>
 #include "ItemManager.h"
 #include "MoonManager.h"
 #include "RandomGenerator.h"
+
+using namespace std;
 
 class Game {
 	enum class GamePhase {
@@ -141,12 +144,12 @@ public:
 			std::cout << "> ";
 			std::cin >> command;
 			// Check if the first word is "route" and the second word is a valid moon name
-			if (tokens.size() >= 2 && tokens[0] == "route") {
+			if (tokens.size() >= 2 && tokens[0] == "route" && phase!=GamePhase::Landed) {
 				std::string moon_name = tokens[1];
 				// Convert moon_name to lowercase for case-insensitive comparison
 				std::transform(moon_name.begin(), moon_name.end(), moon_name.begin(), ::tolower);
 				// Check if the moon_name exists in the moons vector
-				if (std::find(commands.begin(), commands.end(), moon_name) != commands.end()) {
+				if (check_command(moon_name, commands)) {
 					// Valid route command
 					std::cout << "Routing to " << moon_name << std::endl;
 					std::cout << "Now orbiting " << moon_name << ". Use the LAND command to land." << std::endl;
@@ -156,6 +159,23 @@ public:
 				else {
 					// Invalid moon name
 					std::cout << "Invalid moon name: " << moon_name << std::endl;
+				}
+			}
+			else if (phase == GamePhase::Landed) {
+				std::string sendcmd = tokens[0];
+				std::transform(sendcmd.begin(), sendcmd.end(), sendcmd.begin(), ::tolower);
+				
+				if (sendcmd == "send" && tokens.size() >= 2) {
+					int value = std::stoi(tokens[1]);
+					if (value <= remainingEmployees) {
+						return tokens[1];
+					}
+					else if (value > remainingEmployees) {
+						std::cout << "You only have " << remainingEmployees << " employees." << std::endl;
+					}
+				}
+				else if (tokens.size() < 2) {
+					std::cout << "Bad command; the syntax is: 'send numberOfEmployees'" << std::endl;
 				}
 			}
 			else {
@@ -171,7 +191,22 @@ public:
 
 	int handle_land_command(std::string currentMoon) {
 		update_game_phase(GamePhase::Landed);
-		moonManager.moon(currentMoon);
+		AbstractMoon* moon = moonManager.moon(currentMoon);
+		std::cout << "WELCOME TO " << moon->name() << "!\n"
+					 "Current cargo value : $" << cargoValue << "\n"
+					 "Current balance : $" << balance << "\n"
+					 "Current quota : $" << quota << "(3 days left to meet quota)\n"
+					 "Number of employees : " << remainingEmployees << "\n\n"
+					 "Type SEND followed by the number of employees you wish to send inside the\n"
+					 "facility.All the other employees will stay on\n"
+					 " the ship.\n"
+					 "Type LEAVE to leave the planet.\n" << std::endl;
+
+		std::vector<std::string> commands = { "send", "leave" };
+		std::string sentEmployeesStr = read_and_dispatch_commands(commands);
+		int sentEmployees = std::stoi(sentEmployeesStr);
+		update_alive_employees(sentEmployees);
+		
 	}
 	int handle_leave_command() {
 

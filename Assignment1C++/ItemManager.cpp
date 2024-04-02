@@ -16,7 +16,9 @@ public:
     }
 
     // Displays the player's inventory
-    void show_inventory();
+    void show_inventory() {
+
+    }
 
     // Displays the items available for purchase in the store
     std::vector<std::string> show_store() {
