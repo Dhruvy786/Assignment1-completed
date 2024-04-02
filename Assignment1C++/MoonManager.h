@@ -18,6 +18,12 @@ public:
     std::vector<std::string> getMoons();
 
     AbstractMoon* moon(std::string moonName);
+
+    int addEmployee(std::vector<Employee> employees);
+
+    std::vector<Employee> getRemainingEmployees();
+
+    void resetEmployees();
 };
 
 #endif // MOON_MANAGER_H

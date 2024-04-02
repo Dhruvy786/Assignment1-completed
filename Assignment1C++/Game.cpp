@@ -26,7 +26,7 @@ private:
 	MoonManager moonManager;
 	RandomGenerator randomGenerator;
 	GamePhase phase;
-	//std::vector<Employee> employees;
+	std::vector<Employee> employees;
 
 
 public:
@@ -205,7 +205,8 @@ public:
 		std::vector<std::string> commands = { "send", "leave" };
 		std::string sentEmployeesStr = read_and_dispatch_commands(commands);
 		int sentEmployees = std::stoi(sentEmployeesStr);
-		update_alive_employees(sentEmployees);
+		int revenue = update_alive_employees(sentEmployees);
+		update_cargo_value(revenue);
 		
 	}
 	int handle_leave_command() {
@@ -226,11 +227,23 @@ public:
 		this->phase = phase;
 		return 0;
 	}
-	int update_cargo_value(int amount) {
-
+	void update_cargo_value(int amount) {
+		cargoValue = cargoValue + amount;
 	}
 	int update_alive_employees(int count) {
+		std::vector<Employee> employeesToBeSent;
+		for (int i = 0; i < count && !this->employees.empty(); ++i) {
+			employeesToBeSent.push_back(this->employees.front());
+			this->employees.erase(this->employees.begin());
+		}
+		for (Employee i : moonManager.getRemainingEmployees()) {
+			this->employees.push_back(i);
+		}
+		moonManager.resetEmployees();
+		
+		int revenue = moonManager.addEmployee(employeesToBeSent);
 
+		return revenue;
 	}
 
 };

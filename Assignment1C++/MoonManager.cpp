@@ -74,7 +74,7 @@ public:
         return moonNames;
     }
 
-    std::vector<Employee> addEmployee(std::vector<Employee> employees,
+    int addEmployee(std::vector<Employee> employees,
         int numExplorers,
         double explorerBaseSurvivalChance,
         int minScrapValue,
@@ -110,7 +110,16 @@ public:
 
         // Update the vector of employees (remove dead employees)
         employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
+        this->employees = employees;
 
+        return totalRevenue;
+    }
+
+    std::vector<Employee> getRemainingEmployees() {
         return employees;
+    }
+
+    void resetEmployees() {
+        employees.clear();
     }
 };
