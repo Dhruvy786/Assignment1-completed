@@ -21,7 +21,7 @@ public:
     AbstractMoon(std::string moonName);
 
     const std::string& name();
-    MoonWeather getWeather();
+    AbstractMoon::MoonWeather getWeather() const;
     void setWeather(MoonWeather weather);
 };
 

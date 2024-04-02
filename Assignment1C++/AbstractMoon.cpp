@@ -1,16 +1,13 @@
 #include <iostream>
 #include "AbstractMoon.h"
 
-AbstractMoon::AbstractMoon(std::string moonName) {
-    this->moonName = moonName;
-    setWeather(MoonWeather::Clear);
-}
+AbstractMoon::AbstractMoon(std::string moonName) {};
 
 const std::string& AbstractMoon::name() { 
     return moonName;
 }
 
-AbstractMoon::MoonWeather AbstractMoon::getWeather() {
+AbstractMoon::MoonWeather AbstractMoon::getWeather() const {
     return weather;
 }
 

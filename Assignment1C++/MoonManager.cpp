@@ -7,9 +7,22 @@ private:
     std::vector<AbstractMoon*> moons;
 
 public:
+    MoonManager() {
+        for (std::string i : {"Corporation", "Prototyping", "Insurance", "Pledge", "Defence"}) {
+            registerMoon(i);
+        }
+    }
     void registerMoon(std::string moonName) {
         AbstractMoon* moon = new AbstractMoon(moonName);
         moons.push_back(moon);
+    }
+
+    AbstractMoon* moon(std::string moonName) {
+        for (AbstractMoon* moon : moons) {
+            if (moon->name() == moonName) {
+                return moon;
+            }
+        }
     }
 
     void show_moons() {

@@ -59,7 +59,7 @@ public:
 		return commands;
 	}
 
-	void show_welcome_screen() {
+	void show_welcome_screen() const {
 		std::cout << "    ___               _ _           ___                 \n" \
 					 "   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
 					 "  / /\\ / _ \\/ _` |/ _` | | | | |  / /  / _ \\| '__| '_ \\ \n" \
@@ -121,7 +121,7 @@ public:
 			*cmdptr = read_and_dispatch_commands({ "land", "leave" });
 			if (*cmdptr == "land") {
 				// Land on moon
-				handle_land_command();
+				handle_land_command(currentMoon);
 			}
 		}
 	}
@@ -169,8 +169,9 @@ public:
 		}
 	}
 
-	int handle_land_command() {
+	int handle_land_command(std::string currentMoon) {
 		update_game_phase(GamePhase::Landed);
+		moonManager.moon(currentMoon);
 	}
 	int handle_leave_command() {
 

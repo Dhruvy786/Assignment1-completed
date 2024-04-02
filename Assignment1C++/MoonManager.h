@@ -5,7 +5,7 @@
 
 class MoonManager {
 private:
-    
+    std::vector<AbstractMoon*> moons;
 
 public:
     // Constructor and Destructor
@@ -16,6 +16,8 @@ public:
     void show_moons();
 
     std::vector<std::string> getMoons();
+
+    AbstractMoon* moon(std::string moonName);
 };
 
 #endif // MOON_MANAGER_H

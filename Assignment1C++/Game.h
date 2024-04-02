@@ -20,10 +20,10 @@ private:
 
 public:
     // Constructor
-    Game(int balance, int quota);
+    Game();
 
     // Methods
-    void start_game();
+    void show_welcome_screen() const;
     void next_day();
     void land_on_moon(const std::string& moonName);
     void leave_moon();
