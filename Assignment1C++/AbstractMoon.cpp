@@ -1,14 +1,13 @@
-#include <iostream>
 #include "AbstractMoon.h"
 
-AbstractMoon::AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance) {
-    this->moonName = moonName;
-    this->minScrapValue = minScrapValue;
-    this->maxScrapValue = maxScrapValue;
-    this->baseSurvivalChance = baseSurvivalChance;
-};
+AbstractMoon::AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance) :
+    moonName(moonName),
+    minScrapValue(minScrapValue),
+    maxScrapValue(maxScrapValue),
+    baseSurvivalChance(baseSurvivalChance),
+    weather(MoonWeather::Clear) {}
 
-const std::string& AbstractMoon::name() { 
+const std::string& AbstractMoon::name() const {
     return moonName;
 }
 

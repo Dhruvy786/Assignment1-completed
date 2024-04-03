@@ -10,11 +10,11 @@ private:
 
 public:
     // Constructor and Destructor
-    ItemManager();
-    ~ItemManager();
+    ItemManager() {}
+    ~ItemManager() {}
 
     // Methods
-    void registerItem(Item* item);
+    Item* registerItem(std::string);
     void showInventory();
     std::vector<std::string> show_store();
     int buy_item(std::string itemName);

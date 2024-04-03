@@ -1,10 +1,7 @@
-// AbstractMoon.h
 #ifndef ABSTRACTMOON_H
 #define ABSTRACTMOON_H
 
-#include <iostream>
-#include "Employee.h"
-#include "RandomGenerator.h"
+#include <string>
 
 class AbstractMoon {
 public:
@@ -25,10 +22,9 @@ private:
 public:
     AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance);
 
-    const std::string& name();
-    AbstractMoon::MoonWeather getWeather() const;
+    const std::string& name() const;
+    MoonWeather getWeather() const;
     void setWeather(MoonWeather weather);
-
 };
 
 #endif // ABSTRACTMOON_H

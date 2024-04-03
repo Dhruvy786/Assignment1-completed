@@ -1,9 +1,5 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include "AbstractMoon.h"
-#include "Employee.h"
-#include "RandomGenerator.h"
+#include "MoonManager.h"
 
 class MoonManager {
 private:
@@ -20,13 +16,12 @@ private:
 
 public:
     MoonManager() {
-        for (std::string i : {"Corporation", "Prototyping", "Insurance", "Pledge", "Defence"}) {
-            registerMoon(i);
+        for (const std::string& moonName : { "Corporation", "Prototyping", "Insurance", "Pledge", "Defence" }) {
+            registerMoon(new AbstractMoon(moonName, moonMap[moonName][0], moonMap[moonName][1], moonMap[moonName][2]));
         }
     }
 
-    void registerMoon(std::string moonName) {
-        AbstractMoon* moon = new AbstractMoon(moonName, moonMap[moonName][0], moonMap[moonName][1], moonMap[moonName][2]);
+    void registerMoon(AbstractMoon* moon) {
         moons.push_back(moon);
     }
 
@@ -36,7 +31,7 @@ public:
                 return moon;
             }
         }
-        return nullptr; // Return nullptr if moon not found
+        return nullptr;
     }
 
     void show_moons() {
@@ -59,6 +54,8 @@ public:
             return "Eclipsed";
         case AbstractMoon::MoonWeather::Stormy:
             return "Stormy";
+        default:
+            return "";
         }
     }
 
@@ -97,8 +94,10 @@ public:
         int deadExplorers = 0;
         int deadOperators = 0;
 
+        RandomGenerator rd;
+
         for (int i = 0; i < numExplorers; ++i) {
-            int revenue = rd.generateInt(minScrapValue * scrapValueMultiplier, maxScrapValue * scrapValueMultiplier);
+            int revenue = rd.generateInt((minScrapValue * scrapValueMultiplier), (maxScrapValue * scrapValueMultiplier));
             double explorerSurvivalChance = bsc * explorerSurvivalChanceMultiplier;
 
             if (rd.generateFloat() < explorerSurvivalChance) {
@@ -118,7 +117,7 @@ public:
 
         // Update the vector of employees (remove dead employees)
         employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
-        this->employees = employees;
+        employees = employees;
 
         return totalRevenue;
     }

@@ -2,6 +2,7 @@
 //
 
 #include "Assignment1C++.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -24,16 +25,11 @@ using namespace std;
 
 int main()
 {
-    std::cout << "1. MOONS                (Show available moons and their weather conditions)\n";
-    std::cout << "2. ROUTE [nameOfMoon]   (Change currently orbited moon)\n";
-    std::cout << "3. LAND                 (Land on the currently orbited moon)\n";
-    std::cout << "4. SEND [employeeCount] (Send employees on expedition)\n";
-    std::cout << "5. SELL [amount]        (Sell scrap for cash)\n";
-    std::cout << "6. LEAVE                (Leave the current moon)\n";
-    std::cout << "7. STORE                (View available items for purchase)\n";
-    std::cout << "8. BUY [itemName]       (Purchase an item)\n";
-    std::cout << "9. INVENTORY            (View purchased items)\n";
-    std::cout << "10. EXIT                (Exit the game)\n";
+    Game* game = new Game();
+    
+    game->run_game();
+
+    delete game;
 
 	return 0;
 }

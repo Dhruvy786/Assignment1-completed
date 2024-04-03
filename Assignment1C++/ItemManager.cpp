@@ -8,6 +8,9 @@ private:
     std::vector<Item*> boughtItems;
 
 public:
+    ItemManager() {
+
+    }
     // Registers a new item in the item manager
     Item* registerItem(std::string) {
         Item* newItem = new Item();
@@ -16,7 +19,7 @@ public:
     }
 
     // Displays the player's inventory
-    void show_inventory() {
+    void showInventory() {
 
     }
 
@@ -41,5 +44,9 @@ public:
         boughtItems.push_back(newItem);
 
         return newBalance;
+    }
+
+    ~ItemManager() {
+
     }
 };

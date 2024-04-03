@@ -5,6 +5,7 @@
 #include "ItemManager.h"
 #include "MoonManager.h"
 #include "RandomGenerator.h"
+#include "Employee.h"
 
 using namespace std;
 
@@ -40,7 +41,8 @@ public:
 		itemManager(),
 		moonManager(),
 		randomGenerator(),
-		phase(GamePhase::Orbiting) {}
+		phase(GamePhase::Orbiting) {
+	}
 
 	void initialiseGame() {
 		balance = 50;
@@ -205,7 +207,9 @@ public:
 		std::vector<std::string> commands = { "send", "leave" };
 		std::string sentEmployeesStr = read_and_dispatch_commands(commands);
 		int sentEmployees = std::stoi(sentEmployeesStr);
-		int revenue = update_alive_employees(sentEmployees);
+		// mint revenue = 
+		update_alive_employees(sentEmployees);
+		int revenue = 0;
 		update_cargo_value(revenue);
 		
 	}
@@ -230,7 +234,7 @@ public:
 	void update_cargo_value(int amount) {
 		cargoValue = cargoValue + amount;
 	}
-	int update_alive_employees(int count) {
+	void update_alive_employees(int count) {
 		std::vector<Employee> employeesToBeSent;
 		for (int i = 0; i < count && !this->employees.empty(); ++i) {
 			employeesToBeSent.push_back(this->employees.front());
@@ -241,9 +245,9 @@ public:
 		}
 		moonManager.resetEmployees();
 		
-		int revenue = moonManager.addEmployee(employeesToBeSent);
+		// int revenue = moonManager.addEmployee(employeesToBeSent);
 
-		return revenue;
+		// return revenue;
 	}
 
 };
