@@ -3,11 +3,13 @@
 
 class Item {
 private:
+    std::string name;
     int price;
 
 public:
-    // Constructor and Destructor
-    Item();
+    Item(std::string name, int price);
+
+    std::string getName();
 
     int getPrice();
 
