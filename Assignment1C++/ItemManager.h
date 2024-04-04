@@ -7,6 +7,7 @@
 class ItemManager {
 private:
     std::vector<Item*> items;
+    std::vector<Item*> boughtItems;
 
 public:
     // Constructor and Destructor
@@ -17,7 +18,7 @@ public:
     Item* registerItem(std::string);
     void showInventory();
     std::vector<std::string> show_store();
-    int buy_item(std::string itemName);
+    int buy_item(std::string item_name);
 };
 
 #endif // ITEM_MANAGER_H

@@ -1,20 +1,17 @@
 #include <iostream>
 #include <random>
+#include "RandomGenerator.h"
 
-class RandomGenerator {
-private:
-    std::mt19937 generator;
+RandomGenerator::RandomGenerator() : generator(std::random_device{}()) {
 
-public:
-    RandomGenerator() : generator(std::random_device{}()) {}
+}
 
-    int generateInt(int A, int B) {
-        std::uniform_int_distribution<int> distribution(A, B);
-        return distribution(generator);
-    }
+int RandomGenerator::generateInt(double A, double B) {
+    std::uniform_int_distribution<int> distribution(static_cast<int>(A), static_cast<int>(B));
+    return distribution(generator);
+}
 
-    float generateFloat() {
-        std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
-        return distribution(generator);
-    }
-};
+float RandomGenerator::generateFloat() {
+    std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
+    return distribution(generator);
+}

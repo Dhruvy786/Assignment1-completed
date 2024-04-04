@@ -27,7 +27,7 @@ int main()
 {
     Game* game = new Game();
     
-    game->run_game();
+    int num = game->run_game();
 
     delete game;
 

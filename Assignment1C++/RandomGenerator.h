@@ -3,6 +3,7 @@
 #ifndef RANDOMGENERATOR_H
 #define RANDOMGENERATOR_H
 
+#include <iostream>
 #include <random>
 
 class RandomGenerator {
@@ -12,7 +13,8 @@ private:
 public:
     RandomGenerator();
 
-    int generateInt(int A, int B);
+    int generateInt(double A, double B);
+
     float generateFloat();
 };
 

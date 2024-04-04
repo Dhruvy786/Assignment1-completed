@@ -26,16 +26,16 @@ private:
     int remainingEmployees;
     ItemManager itemManager;
     MoonManager moonManager;
-    RandomGenerator randomGenerator;
+    // RandomGenerator randomGenerator;
     GamePhase phase;
     std::vector<Employee> employees;
 
 public:
-    Game() {};
+    Game();
 
     void initialiseGame();
 
-    int define_moons();
+    void define_moons();
 
     std::vector<std::string> define_items();
 
@@ -45,19 +45,19 @@ public:
 
     int run_game();
 
-    int run_day_loop();
+    void run_day_loop();
 
     std::string read_and_dispatch_commands(const std::vector<std::string>& commands);
 
-    int handle_land_command(std::string currentMoon);
+    void handle_land_command(std::string currentMoon);
 
-    int handle_leave_command();
+    void handle_leave_command();
 
-    int handle_exit_command();
+    void handle_exit_command();
 
     void update_balance(int amount);
 
-    int update_current_moon(std::string moon_name);
+    void update_current_moon(std::string moon_name);
 
     int update_game_phase(GamePhase phase);
 
