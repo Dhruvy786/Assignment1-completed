@@ -15,10 +15,9 @@ public:
     ~ItemManager() {}
 
     // Methods
-    Item* registerItem(std::string);
     void showInventory();
     std::vector<std::string> show_store();
-    int buy_item(std::string item_name);
+    int buy_item(std::string itemName);
 };
 
 #endif // ITEM_MANAGER_H

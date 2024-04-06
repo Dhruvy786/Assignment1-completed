@@ -23,39 +23,40 @@ public:
             items.push_back(new Item(pair.first, pair.second));
         }
     }
-    // Registers a new item in the item manager
-    Item* registerItem(std::string) {
-        Item* newItem = new Item();
-
-        return newItem;
-    }
 
     // Displays the player's inventory
     void showInventory() {
+        std::cout << "The following items are available.\n"
+                     "---------------------------------------\n" << std::endl;
 
+        for (Item* item : boughtItems) {
+            std::cout << "* " << item->getName() << "\n" << std::endl;
+        }
     }
 
     // Displays the items available for purchase in the store
     std::vector<std::string> show_store() {
-        std::cout << "Available Items:\n";
-        std::cout << "Flashlight // Price: $60\n";
-        std::cout << "* Shovel // Price: $100\n";
-        std::cout << "* Pro-flashlight // Price: $200\n";
-        std::cout << "* Teleporter // Price: $300\n";
-        std::cout << "* Inverse-teleporter // Price: $400\n";
-        std::cout << "* Backpack // Price: $500\n";
-        std::cout << "* Hydraulics-Mk2 // Price: $1000\n";
-
         std::vector<std::string> commands;
 
-        return { "Flashlight", "Shovel", "Pro-flashlight", "Teleporter", "Inverse-teleporter", "Backpack", "Hydraulics-Mk2" };
+        std::cout << "Available Items:\n";
+
+        for (Item* item : items) {
+            std::cout << item->getName() << " // Price: $" << item->getPrice() << std::endl;
+            commands.push_back(item->getName());
+        }
+
+        return commands;
     }
 
     // Allows the player to buy an item from the store
-    int buy_item(std::string item_name) {
-        Item* newItem = registerItem(item_name);
-        int newBalance = newItem->getPrice();
-        boughtItems.push_back(newItem);
+    int buy_item(std::string itemName) {
+        int newBalance = 0;
+        for (Item* item : items) {
+            if (itemName == item->getName()) {
+                boughtItems.push_back(item);
+                newBalance = item->getPrice();
+            }
+        }
 
         return newBalance;
     }
