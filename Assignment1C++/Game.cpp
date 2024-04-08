@@ -87,9 +87,9 @@ int Game::run_game() {
 	// Buy an item
 	if (*cmdptr == "store") {
 		std::vector<std::string> items = define_items();
-		*cmdptr = read_and_dispatch_commands(items);
-		std::string itemName = *cmdptr;
-		int newBalance = itemManager.buy_item(itemName);
+		std::string cmd = read_and_dispatch_commands(items);
+		std::string itemName = cmd;
+		int newBalance = itemManager.buyItem(itemName);
 		update_balance(newBalance);
 	}
 
@@ -120,20 +120,29 @@ void Game::run_day_loop() {}
 // Reads the command and returns the chosen command 
 std::string Game::read_and_dispatch_commands(const std::vector<std::string>& commands) {
 	std::string command;
-	std::istringstream iss(command);
 	std::vector<std::string> tokens;
-	std::string token;
-	while (iss >> token) {
-		tokens.push_back(token);
-	}
+
 	while (true) {
 		std::cout << "> ";
-		std::cin >> command;
-		// Check if the first word is "route" and the second word is a valid moon name
-		if (tokens.size() >= 2 && tokens[0] == "route" && phase!=GamePhase::Landed) {
+		std::getline(std::cin, command); // Read entire line of input
+		std::istringstream iss(command); // Initialize stringstream with input
+
+		tokens.clear(); // Clear tokens vector for each iteration
+
+		while (iss >> command) {
+			tokens.push_back(command);
+		}
+
+		// Command processing based on game state and tokens
+		if (tokens.empty()) {
+			std::cout << "Invalid command. Please enter a command.\n";
+			continue; // Skip further processing if command is empty
+		}
+
+		// Check if the first token is "route" and the second token is a valid moon name
+		if (tokens.size() >= 2 && tokens[0] == "route") {
 			std::string moon_name = tokens[1];
-			// Convert moon_name to lowercase for case-insensitive comparison
-			std::transform(moon_name.begin(), moon_name.end(), moon_name.begin(), ::tolower);
+
 			// Check if the moon_name exists in the moons vector
 			if (check_command(moon_name, commands)) {
 				// Valid route command
@@ -147,30 +156,23 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 				std::cout << "Invalid moon name: " << moon_name << std::endl;
 			}
 		}
-		else if (phase == GamePhase::Landed) {
-			std::string sendcmd = tokens[0];
-			std::transform(sendcmd.begin(), sendcmd.end(), sendcmd.begin(), ::tolower);
-				
-			if (sendcmd == "send" && tokens.size() >= 2) {
-				int value = std::stoi(tokens[1]);
-				if (value <= remainingEmployees) {
-					return tokens[1];
-				}
-				else if (value > remainingEmployees) {
-					std::cout << "You only have " << remainingEmployees << " employees." << std::endl;
-				}
-			}
-			else if (tokens.size() < 2) {
-				std::cout << "Bad command; the syntax is: 'send numberOfEmployees'" << std::endl;
-			}
-		}
-		else {
-			if (check_command(command, commands)) {
-				return command;
+		else if (phase == GamePhase::Landed && tokens.size() >= 2 && tokens[0] == "send") {
+			// Handle "send" command when landed
+			int value = std::stoi(tokens[1]);
+			if (value <= remainingEmployees) {
+				return tokens[1]; // Return the number of employees to send
 			}
 			else {
-				std::cout << "Invalid command. Please enter a valid command.\n" << std::endl;
+				std::cout << "You only have " << remainingEmployees << " employees." << std::endl;
 			}
+		}
+		else if (check_command(tokens[0], commands)) {
+			// Check if the command is valid
+			return tokens[0];
+		}
+		else {
+			// Invalid command
+			std::cout << "Invalid command. Please enter a valid command.\n";
 		}
 	}
 }

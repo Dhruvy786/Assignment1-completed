@@ -1,21 +1,16 @@
 #include <iostream>
+#include "Item.h"
 
-class Item {
-private:
-	std::string name;
-	int price;
 
-public:
-	Item(std::string name, int price) {
-		this->name = name;
-		this->price = price;
-	}
+Item::Item(std::string name, int price) {
+	this->name = name;
+	this->price = price;
+}
 
-	std::string getName() {
-		return name;
-	}
+std::string Item::getName() {
+	return name;
+}
 
-	int getPrice() {
-		return price;
-	}
-};
+int Item::getPrice() {
+	return price;
+}

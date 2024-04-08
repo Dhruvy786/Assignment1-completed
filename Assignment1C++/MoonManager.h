@@ -22,7 +22,7 @@ private:
     };
 
 public:
-    MoonManager() {}
+    MoonManager();
 
     void registerMoon(AbstractMoon* moon);
 

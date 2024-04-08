@@ -1,5 +1,12 @@
 #include "MoonManager.h"
 
+MoonManager::MoonManager() {
+    for (const auto& pair : moonMap) {
+        AbstractMoon* moon = new AbstractMoon(pair.first, pair.second[0], pair.second[1], pair.second[2]);
+        moons.push_back(moon);
+    }
+}
+
 void MoonManager::registerMoon(AbstractMoon* moon) {
     moons.push_back(moon);
 }
