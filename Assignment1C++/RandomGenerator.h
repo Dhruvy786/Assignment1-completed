@@ -16,6 +16,8 @@ public:
     int generateInt(double A, double B);
 
     float generateFloat();
+
+    int generateRandomNumber(int min, int max);
 };
 
 #endif // RANDOMGENERATOR_H

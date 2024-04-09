@@ -15,6 +15,17 @@ AbstractMoon::MoonWeather AbstractMoon::getWeather() const {
     return weather;
 }
 
-void AbstractMoon::setWeather(MoonWeather weather) {
-    this->weather = weather;
+void AbstractMoon::setWeather(int num) {
+    if (num == 0) {
+        this->weather = MoonWeather::Clear;
+    }
+    else if (num == 1) {
+        this->weather = MoonWeather::Eclipsed;
+    }
+    else if (num == 2) {
+        this->weather = MoonWeather::Flooded;
+    }
+    else if (num == 3) {
+        this->weather = MoonWeather::Stormy;
+    }
 }

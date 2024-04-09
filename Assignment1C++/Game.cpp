@@ -121,6 +121,7 @@ void Game::run_day_loop() {}
 std::string Game::read_and_dispatch_commands(const std::vector<std::string>& commands) {
 	std::string command;
 	std::vector<std::string> tokens;
+	moonManager.setRandomWeather();
 
 	while (true) {
 		std::cout << "> ";

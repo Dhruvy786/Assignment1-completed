@@ -24,7 +24,7 @@ public:
 
     const std::string& name() const;
     MoonWeather getWeather() const;
-    void setWeather(MoonWeather weather);
+    void setWeather(int num);
 };
 
 #endif // ABSTRACTMOON_H

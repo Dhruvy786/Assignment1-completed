@@ -36,6 +36,8 @@ public:
 
     std::vector<std::string> getMoons();
 
+    void setRandomWeather();
+
     int addEmployee(std::vector<Employee> employees, 
         int numExplorers,
         double bsc,

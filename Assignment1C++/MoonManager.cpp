@@ -65,7 +65,14 @@ std::vector<std::string> MoonManager::getMoons() {
     return moonNames;
 }
 
-/*int MoonManager::addEmployee(std::vector<Employee> employees,
+void MoonManager::setRandomWeather() {
+    for (AbstractMoon* moon : moons) {
+        int num = rd.generateRandomNumber(0, 4);
+        moon->setWeather(num);
+    }
+}
+
+int MoonManager::addEmployee(std::vector<Employee> employees,
     int numExplorers,
     double bsc,
     int minScrapValue,
@@ -105,7 +112,7 @@ std::vector<std::string> MoonManager::getMoons() {
     employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
 
     return totalRevenue;
-}*/
+}
 
 std::vector<Employee> MoonManager::getRemainingEmployees() {
     return employees;
