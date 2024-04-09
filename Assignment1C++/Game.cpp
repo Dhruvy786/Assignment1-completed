@@ -165,19 +165,9 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		else if (phase == GamePhase::Landed && tokens.size() >= 2 && tokens[0] == "send") {
 			// Handle "send" command when landed
 			int value = std::stoi(tokens[1]);
-			int returnedEmployees = moonManager.addEmployee(employees, 
-				value, 
-				moonManager.moon(currentMoon)->getBsc(), 
-				moonManager.moon(currentMoon)->getMinScrapValue(), 
-				moonManager.moon(currentMoon)->getMaxScrapValue(), 
-				(1*moonManager.moon(currentMoon)->getMultiplierValue()[1]*itemManager.calculator()[1]), 
-				(1*moonManager.moon(currentMoon)->getMultiplierValue()[2]*itemManager.calculator()[2]),
-				(1*moonManager.moon(currentMoon)->getMultiplierValue()[0]*itemManager.calculator()[0]),
-				itemManager.calculator()[3],
-				itemManager.calculator()[4]
-				);
+
 			if (value <= remainingEmployees) {
-				return tokens[1]; // Return the number of employees to send
+				return tokens[1];
 			}
 			else {
 				std::cout << "You only have " << remainingEmployees << " employees." << std::endl;
@@ -185,6 +175,10 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		}
 		else if (check_command(tokens[0], commands)) {
 			// Check if the command is valid
+			return tokens[0];
+		}
+		else if (tokens[0] == "leave") {
+			std::cout << "You entered leave commands." << std::endl;
 			return tokens[0];
 		}
 		else {
@@ -198,23 +192,44 @@ void Game::handle_land_command(std::string currentMoon) {
 	update_game_phase(GamePhase::Landed);
 	AbstractMoon* moon = moonManager.moon(currentMoon);
 	std::cout << "WELCOME TO " << moon->name() << "!\n"
-					"Current cargo value : $" << cargoValue << "\n"
-					"Current balance : $" << balance << "\n"
-					"Current quota : $" << quota << "(3 days left to meet quota)\n"
-					"Number of employees : " << remainingEmployees << "\n\n"
-					"Type SEND followed by the number of employees you wish to send inside the\n"
-					"facility.All the other employees will stay on\n"
-					" the ship.\n"
-					"Type LEAVE to leave the planet.\n" << std::endl;
+		"Current cargo value : $" << cargoValue << "\n"
+		"Current balance : $" << balance << "\n"
+		"Current quota : $" << quota << "(3 days left to meet quota)\n"
+		"Number of employees : " << remainingEmployees << "\n\n"
+		"Type SEND followed by the number of employees you wish to send inside the\n"
+		"facility.All the other employees will stay on\n"
+		" the ship.\n"
+		"Type LEAVE to leave the planet.\n" << std::endl;
 
 	std::vector<std::string> commands = { "send", "leave" };
 	std::string sentEmployeesStr = read_and_dispatch_commands(commands);
-	int sentEmployees = std::stoi(sentEmployeesStr);
-	// mint revenue = 
-	update_alive_employees(sentEmployees);
-	int revenue = 0;
-	update_cargo_value(revenue);
-		
+	while (sentEmployeesStr != "leave") {
+		std::cout << cargoValue << std::endl;
+		int sentEmployees = std::stoi(sentEmployeesStr);
+		int revenue = moonManager.addEmployee(employees,
+			sentEmployees,
+			moonManager.moon(currentMoon)->getBsc(),
+			moonManager.moon(currentMoon)->getMinScrapValue(),
+			moonManager.moon(currentMoon)->getMaxScrapValue(),
+			(1 * moonManager.moon(currentMoon)->getMultiplierValue()[1] * itemManager.calculator()[1]),
+			(1 * moonManager.moon(currentMoon)->getMultiplierValue()[2] * itemManager.calculator()[2]),
+			(1 * moonManager.moon(currentMoon)->getMultiplierValue()[0] * itemManager.calculator()[0]),
+			itemManager.calculator()[3],
+			itemManager.calculator()[4]
+		);
+
+		employees = moonManager.getRemainingEmployees();
+
+		if (employees.size() > 0) {
+			update_cargo_value(revenue);
+		}
+
+		update_alive_employees(employees.size());
+
+		// Remove the std::string data type from the redeclaration
+		sentEmployeesStr = read_and_dispatch_commands(commands);
+	}
+	std::cout << cargoValue << std::endl;
 }
 void Game::handle_leave_command() {
 
@@ -242,17 +257,5 @@ void Game::update_cargo_value(int amount) {
 }
 
 void Game::update_alive_employees(int count) {
-	std::vector<Employee*> employeesToBeSent;
-	for (int i = 0; i < count && !this->employees.empty(); ++i) {
-		employeesToBeSent.push_back(this->employees.front());
-		this->employees.erase(this->employees.begin());
-	}
-	for (Employee* i : moonManager.getRemainingEmployees()) {
-		this->employees.push_back(i);
-	}
-	moonManager.resetEmployees();
-		
-	// int revenue = moonManager.addEmployee(employeesToBeSent);
-
-	// return revenue;
+	remainingEmployees = count;
 }

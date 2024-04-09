@@ -111,6 +111,7 @@ int MoonManager::addEmployee(std::vector<Employee*> employees,
 
     // Update the vector of employees (remove dead employees)
     employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
+    this->employees = employees;
 
     return totalRevenue;
 }
