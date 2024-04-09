@@ -1,3 +1,4 @@
+#include <vector>
 #include "AbstractMoon.h"
 
 AbstractMoon::AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance) :
@@ -28,4 +29,31 @@ void AbstractMoon::setWeather(int num) {
     else if (num == 3) {
         this->weather = MoonWeather::Stormy;
     }
+}
+
+float AbstractMoon::getMinScrapValue() {
+    return minScrapValue;
+}
+
+float AbstractMoon::getMaxScrapValue() {
+    return maxScrapValue;
+}
+
+float AbstractMoon::getBsc() {
+    return baseSurvivalChance;
+}
+
+std::vector<float> AbstractMoon::getMultiplierValue() {
+    std::vector<float> weatherConditions = { 1, 1, 1 };
+    if (this->weather == MoonWeather::Flooded) {
+        weatherConditions = { 1, 0.7, 1 };
+    }
+    else if (this->weather == MoonWeather::Stormy) {
+        weatherConditions = { 0.75, 1, 1 };
+    }
+    else if (this->weather == MoonWeather::Eclipsed) {
+        weatherConditions = { 1, 0.9, 0.7 };
+    }
+
+    return weatherConditions;
 }

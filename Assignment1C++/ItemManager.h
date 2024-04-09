@@ -10,14 +10,14 @@ class ItemManager {
 private:
     std::vector<Item*> items;
     std::vector<Item*> boughtItems;
-    std::map<std::string, int> itemList{
-            {"Flashlight", 60},
-            {"Shovel", 100},
-            {"Pro-flashlight", 200},
-            {"Teleporter", 300},
-            {"Inverse-teleporter", 400},
-            {"Backpack", 500},
-            {"Hydraulics-Mk2", 1000}
+    std::map<std::string, std::vector<float>> itemList{
+            {"Flashlight", {60, 1, 1.05, 1, 1, 1}},
+            {"Shovel", {100, 1, 1.05, 1, 1, 1}},
+            {"Pro-flashlight", {200, 1, 1.1, 1, 1, 1}},
+            {"Teleporter", {300, 1, 1, 1, 0.33, 1}},
+            {"Inverse-teleporter", {400, 1.1, 0.8, 1, 1, 1}},
+            {"Backpack", {500, 1, 1, 1, 1, 1.25}},
+            {"Hydraulics-Mk2", {1000, 1, 1, 1.25, 1, 1}}
     };
 
 public:
@@ -29,6 +29,7 @@ public:
     void showInventory();
     std::vector<std::string> show_store();
     int buyItem(std::string itemName);
+    std::vector<Item*> getBoughtItems();
 };
 
 #endif // ITEM_MANAGER_H

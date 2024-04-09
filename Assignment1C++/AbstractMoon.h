@@ -25,6 +25,10 @@ public:
     const std::string& name() const;
     MoonWeather getWeather() const;
     void setWeather(int num);
+    float getMinScrapValue();
+    float getMaxScrapValue();
+    float getBsc();
+    std::vector<float> getMultiplierValue();
 };
 
 #endif // ABSTRACTMOON_H

@@ -7,7 +7,7 @@
 
 ItemManager::ItemManager() {
     for (const auto& pair : itemList) {
-        items.push_back(new Item(pair.first, pair.second));
+        items.push_back(new Item(pair.first, pair.second[0], pair.second[1], pair.second[2], pair.second[3], pair.second[4], pair.second[5]));
     }
 }
 
@@ -47,6 +47,10 @@ int ItemManager::buyItem(std::string itemName) {
     }
 
     return newBalance;
+}
+
+std::vector<Item*> ItemManager::getBoughtItems() {
+    return boughtItems;
 }
 
 ItemManager::~ItemManager() {

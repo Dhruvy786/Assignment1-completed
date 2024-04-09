@@ -16,11 +16,15 @@ Game::Game() :
 	quota(0),
 	day(1),
 	currentMoon(""),
-	remainingEmployees(0),
+	remainingEmployees(4),
 	itemManager(),
 	moonManager(),
-	// randomGenerator(),
-	phase(GamePhase::Orbiting) {
+	phase(GamePhase::Orbiting)
+	{
+	for (int i = 0; i < 5; i++) {
+		Employee* employee = new Employee();
+		employees.push_back(employee);
+	}
 }
 
 void Game::initialiseGame() {
@@ -149,6 +153,7 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 				// Valid route command
 				std::cout << "Routing to " << moon_name << std::endl;
 				std::cout << "Now orbiting " << moon_name << ". Use the LAND command to land." << std::endl;
+				currentMoon = moon_name;
 				// Proceed with routing logic
 				return moon_name;
 			}
@@ -160,6 +165,8 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		else if (phase == GamePhase::Landed && tokens.size() >= 2 && tokens[0] == "send") {
 			// Handle "send" command when landed
 			int value = std::stoi(tokens[1]);
+			int returnedEmployees = moonManager.addEmployee(employees, value, moonManager.moon(currentMoon)->getBsc(), moonManager.moon(currentMoon)->getMinScrapValue(), moonManager.moon(currentMoon)->getMaxScrapValue(), 
+				(1*moonManager.moon(currentMoon)->getMultiplierValue()[0]*itemManager.getBoughtItems()[]), );
 			if (value <= remainingEmployees) {
 				return tokens[1]; // Return the number of employees to send
 			}

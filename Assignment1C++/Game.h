@@ -26,9 +26,8 @@ private:
     int remainingEmployees;
     ItemManager itemManager;
     MoonManager moonManager;
-    // RandomGenerator randomGenerator;
     GamePhase phase;
-    std::vector<Employee> employees;
+    std::vector<Employee*> employees;
 
 public:
     Game();

@@ -82,6 +82,7 @@ int MoonManager::addEmployee(std::vector<Employee> employees,
     double scrapValueMultiplier,
     double explorerSaveChance,
     double lootRecoveryMultiplier) {
+    
     int numOperators = employees.size() - numExplorers;
     int totalRevenue = 0;
     int deadExplorers = 0;
