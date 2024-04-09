@@ -165,8 +165,17 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		else if (phase == GamePhase::Landed && tokens.size() >= 2 && tokens[0] == "send") {
 			// Handle "send" command when landed
 			int value = std::stoi(tokens[1]);
-			int returnedEmployees = moonManager.addEmployee(employees, value, moonManager.moon(currentMoon)->getBsc(), moonManager.moon(currentMoon)->getMinScrapValue(), moonManager.moon(currentMoon)->getMaxScrapValue(), 
-				(1*moonManager.moon(currentMoon)->getMultiplierValue()[0]*itemManager.getBoughtItems()[]), );
+			int returnedEmployees = moonManager.addEmployee(employees, 
+				value, 
+				moonManager.moon(currentMoon)->getBsc(), 
+				moonManager.moon(currentMoon)->getMinScrapValue(), 
+				moonManager.moon(currentMoon)->getMaxScrapValue(), 
+				(1*moonManager.moon(currentMoon)->getMultiplierValue()[1]*itemManager.calculator()[1]), 
+				(1*moonManager.moon(currentMoon)->getMultiplierValue()[2]*itemManager.calculator()[2]),
+				(1*moonManager.moon(currentMoon)->getMultiplierValue()[0]*itemManager.calculator()[0]),
+				itemManager.calculator()[3],
+				itemManager.calculator()[4]
+				);
 			if (value <= remainingEmployees) {
 				return tokens[1]; // Return the number of employees to send
 			}
@@ -233,12 +242,12 @@ void Game::update_cargo_value(int amount) {
 }
 
 void Game::update_alive_employees(int count) {
-	std::vector<Employee> employeesToBeSent;
+	std::vector<Employee*> employeesToBeSent;
 	for (int i = 0; i < count && !this->employees.empty(); ++i) {
 		employeesToBeSent.push_back(this->employees.front());
 		this->employees.erase(this->employees.begin());
 	}
-	for (Employee i : moonManager.getRemainingEmployees()) {
+	for (Employee* i : moonManager.getRemainingEmployees()) {
 		this->employees.push_back(i);
 	}
 	moonManager.resetEmployees();

@@ -53,6 +53,23 @@ std::vector<Item*> ItemManager::getBoughtItems() {
     return boughtItems;
 }
 
+std::vector<float> ItemManager::calculator() {
+    std::vector<float> multiplierValues = { 1, 1, 1, 1, 1 };
+    
+    for (Item* item : boughtItems) {
+        multiplierValues[0] *= item->getSvm();
+        multiplierValues[1] *= item->getEscm();
+        multiplierValues[2] *= item->getOscm();
+        multiplierValues[4] *= item->getLrm();
+
+        if (item->getName() == "Teleporter") {
+            multiplierValues[3] = item->getEsc();
+        }
+    }
+
+    return multiplierValues;
+}
+
 ItemManager::~ItemManager() {
 
 }

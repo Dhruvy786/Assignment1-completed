@@ -30,6 +30,7 @@ public:
     std::vector<std::string> show_store();
     int buyItem(std::string itemName);
     std::vector<Item*> getBoughtItems();
+    std::vector<float> calculator();
 };
 
 #endif // ITEM_MANAGER_H

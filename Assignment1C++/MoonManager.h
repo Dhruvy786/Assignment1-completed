@@ -11,7 +11,7 @@
 class MoonManager {
 private:
     std::vector<AbstractMoon*> moons;
-    std::vector<Employee> employees;
+    std::vector<Employee*> employees;
     RandomGenerator rd;
     std::map<std::string, std::vector<float>> moonMap{
         {"Corporation", {0.0f, 0.0f, 0.0f}},
@@ -38,7 +38,7 @@ public:
 
     void setRandomWeather();
 
-    int addEmployee(std::vector<Employee> employees, 
+    int addEmployee(std::vector<Employee*> employees, 
         int numExplorers,
         double bsc,
         int minScrapValue,
@@ -49,7 +49,7 @@ public:
         double explorerSaveChance,
         double lootRecoveryMultiplier);
 
-    std::vector<Employee> getRemainingEmployees();
+    std::vector<Employee*> getRemainingEmployees();
 
     void resetEmployees();
 };

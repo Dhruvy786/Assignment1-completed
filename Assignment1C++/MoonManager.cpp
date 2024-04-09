@@ -72,7 +72,7 @@ void MoonManager::setRandomWeather() {
     }
 }
 
-int MoonManager::addEmployee(std::vector<Employee> employees,
+int MoonManager::addEmployee(std::vector<Employee*> employees,
     int numExplorers,
     double bsc,
     int minScrapValue,
@@ -115,7 +115,7 @@ int MoonManager::addEmployee(std::vector<Employee> employees,
     return totalRevenue;
 }
 
-std::vector<Employee> MoonManager::getRemainingEmployees() {
+std::vector<Employee*> MoonManager::getRemainingEmployees() {
     return employees;
 }
 
