@@ -124,19 +124,19 @@ void Game::run_day_loop() {}
 	
 // Reads the command and returns the chosen command 
 std::string Game::read_and_dispatch_commands(const std::vector<std::string>& commands) {
-	std::string command;
+	std::string* command = new std::string; // Allocate memory for command pointer
 	std::vector<std::string> tokens;
 	moonManager.setRandomWeather();
 
 	while (true) {
 		std::cout << "> ";
-		std::getline(std::cin, command); // Read entire line of input
-		std::istringstream iss(command); // Initialize stringstream with input
+		std::getline(std::cin, *command); // Read entire line of input
+		std::istringstream iss(*command); // Initialize stringstream with input
 
 		tokens.clear(); // Clear tokens vector for each iteration
 
-		while (iss >> command) {
-			tokens.push_back(command);
+		while (iss >> *command) {
+			tokens.push_back(*command);
 		}
 
 		// Command processing based on game state and tokens
@@ -155,6 +155,7 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 				std::cout << "Now orbiting " << moon_name << ". Use the LAND command to land." << std::endl;
 				currentMoon = moon_name;
 				// Proceed with routing logic
+				delete command; // Delete command pointer
 				return moon_name;
 			}
 			else {
@@ -167,6 +168,7 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 			int value = std::stoi(tokens[1]);
 
 			if (value <= remainingEmployees) {
+				delete command; // Delete command pointer
 				return tokens[1];
 			}
 			else {
@@ -178,10 +180,12 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		}
 		else if (check_command(tokens[0], commands)) {
 			// Check if the command is valid
+			delete command; // Delete command pointer
 			return tokens[0];
 		}
 		else if (tokens[0] == "leave") {
 			std::cout << "You entered leave commands." << std::endl;
+			delete command; // Delete command pointer
 			return tokens[0];
 		}
 		else {
@@ -189,21 +193,27 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 			std::cout << "Invalid command. Please enter a valid command.\n";
 		}
 	}
+
+	delete command; // Delete command pointer
+
+	return "";
 }
+
 
 void Game::handle_land_command(std::string currentMoon) {
 	update_game_phase(GamePhase::Landed);
 	AbstractMoon* moon = moonManager.moon(currentMoon);
 	update_current_moon(currentMoon);
 	std::cout << "WELCOME TO " << moon->name() << "!\n"
-		"Current cargo value : $" << cargoValue << "\n"
-		"Current balance : $" << balance << "\n"
-		"Current quota : $" << quota << "(3 days left to meet quota)\n"
-		"Number of employees : " << remainingEmployees << "\n\n"
-		"Type SEND followed by the number of employees you wish to send inside the\n"
-		"facility.All the other employees will stay on\n"
-		" the ship.\n"
-		"Type LEAVE to leave the planet.\n" << std::endl;
+		<< "Current cargo value : $" << cargoValue << "\n"
+		<< "Current balance : $" << balance << "\n"
+		<< "Current quota : $" << quota << "(3 days left to meet quota)\n"
+		<< "Number of employees : " << remainingEmployees << "\n\n"
+		<< "Type SEND followed by the number of employees you wish to send inside the\n"
+		<< "facility. All the other employees will stay on\n"
+		<< " the ship.\n"
+		<< "Type LEAVE to leave the planet.\n"
+		<< std::endl;
 
 	std::vector<std::string> commands = { "send", "leave" };
 	std::string sentEmployeesStr = read_and_dispatch_commands(commands);
@@ -211,24 +221,25 @@ void Game::handle_land_command(std::string currentMoon) {
 		std::cout << cargoValue << std::endl;
 		int sentEmployees = std::stoi(sentEmployeesStr);
 
-		// Assign pointers to member functions and values
-		int remainingEmp = remainingEmployees;
-		int bsc = moon->getBsc();
-		int minScrap = moon->getMinScrapValue();
-		int maxScrap = moon->getMaxScrapValue();
-		int multiplier1 = moon->getMultiplierValue()[1];
-		int multiplier2 = moon->getMultiplierValue()[2];
-		int multiplier0 = moon->getMultiplierValue()[0];
-		int item3 = itemManager.calculator()[3];
-		int item4 = itemManager.calculator()[4];
+		// Create pointers for variables
+		int* remainingEmpPtr = &remainingEmployees;
+		int* bscPtr = &moon->getBsc();
+		int* minScrapPtr = &moon->getMinScrapValue();
+		int* maxScrapPtr = &moon->getMaxScrapValue();
+		int* multiplier1Ptr = &moon->getMultiplierValue()[1];
+		int* multiplier2Ptr = &moon->getMultiplierValue()[2];
+		int* multiplier0Ptr = &moon->getMultiplierValue()[0];
+		int* item3Ptr = &itemManager.calculator()[3];
+		int* item4Ptr = &itemManager.calculator()[4];
 
 		// Call addEmployee method using pointers
-		std::tuple<int, int, int> expeditionResult = moonManager.addEmployee(remainingEmp, sentEmployees,
-			bsc, minScrap, maxScrap,
-			(1 * multiplier1 * itemManager.calculator()[1]),
-			(1 * multiplier2 * itemManager.calculator()[2]),
-			(1 * multiplier0 * itemManager.calculator()[0]),
-			item3, item4
+		std::tuple<int, int, int> expeditionResult = moonManager.addEmployee(
+			*remainingEmpPtr, sentEmployees,
+			*bscPtr, *minScrapPtr, *maxScrapPtr,
+			(1 * (*multiplier1Ptr) * itemManager.calculator()[1]),
+			(1 * (*multiplier2Ptr) * itemManager.calculator()[2]),
+			(1 * (*multiplier0Ptr) * itemManager.calculator()[0]),
+			*item3Ptr, *item4Ptr
 		);
 
 		int deadExplorers = std::get<0>(expeditionResult);
