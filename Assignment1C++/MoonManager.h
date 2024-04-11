@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <tuple>
 #include "AbstractMoon.h"
 #include "Employee.h"
 #include "RandomGenerator.h"
@@ -11,7 +12,6 @@
 class MoonManager {
 private:
     std::vector<AbstractMoon*> moons;
-    std::vector<Employee*> employees;
     RandomGenerator rd;
     std::map<std::string, std::vector<float>> moonMap{
         {"Corporation", {0.0f, 0.0f, 0.0f}},
@@ -38,8 +38,7 @@ public:
 
     void setRandomWeather();
 
-    int addEmployee(std::vector<Employee*> employees, 
-        int numExplorers,
+    std::tuple<int, int, int> addEmployee(int employees, int numExplorers,
         double bsc,
         int minScrapValue,
         int maxScrapValue,
@@ -49,7 +48,7 @@ public:
         double explorerSaveChance,
         double lootRecoveryMultiplier);
 
-    std::vector<Employee*> getRemainingEmployees();
+    int getRemainingEmployees();
 
     void resetEmployees();
 };

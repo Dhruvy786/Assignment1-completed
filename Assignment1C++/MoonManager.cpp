@@ -72,9 +72,10 @@ void MoonManager::setRandomWeather() {
     }
 }
 
-int MoonManager::addEmployee(std::vector<Employee*> employees,
+
+std::tuple<int, int, int> MoonManager::addEmployee(int aliveEmployees,
     int numExplorers,
-    double bsc,
+    double explorerBaseSurvivalChance,
     int minScrapValue,
     int maxScrapValue,
     double explorerSurvivalChanceMultiplier,
@@ -82,44 +83,49 @@ int MoonManager::addEmployee(std::vector<Employee*> employees,
     double scrapValueMultiplier,
     double explorerSaveChance,
     double lootRecoveryMultiplier) {
-    
-    int numOperators = employees.size() - numExplorers;
+
+    int numOperators = aliveEmployees - numExplorers;
     int totalRevenue = 0;
     int deadExplorers = 0;
     int deadOperators = 0;
 
     RandomGenerator rd;
 
+    // Calculate survival chances
+    double explorerSurvivalChance = explorerBaseSurvivalChance * explorerSurvivalChanceMultiplier;
+    double operatorSurvivalChance = 1.0 * operatorSurvivalChanceMultiplier;
+
+    // Explore with numExplorers
     for (int i = 0; i < numExplorers; ++i) {
         int revenue = rd.generateInt((minScrapValue * scrapValueMultiplier), (maxScrapValue * scrapValueMultiplier));
-        double explorerSurvivalChance = bsc * explorerSurvivalChanceMultiplier;
+        std::cout << i << std::endl;
 
         if (rd.generateFloat() < explorerSurvivalChance) {
             totalRevenue += revenue;
         }
         else if (rd.generateFloat() >= explorerSaveChance) {
+            // Explorer dies and is not saved
             totalRevenue += revenue * lootRecoveryMultiplier;
             ++deadExplorers;
         }
     }
 
+    // Operators' fate
     for (int i = 0; i < numOperators; ++i) {
-        if (rd.generateFloat() >= operatorSurvivalChanceMultiplier) {
+        if (rd.generateFloat() >= operatorSurvivalChance) {
+            std::cout << i << std::endl;
+            // Operator dies
             ++deadOperators;
         }
     }
 
-    // Update the vector of employees (remove dead employees)
-    employees.erase(employees.begin(), employees.begin() + deadExplorers + deadOperators);
-    this->employees = employees;
+    // Calculate total number of employees who died
+    int totalDead = deadExplorers + deadOperators;
+    std::cout << totalDead << std::endl;
 
-    return totalRevenue;
-}
+    // Calculate remaining alive employees
+    int aliveAfterExpedition = aliveEmployees - totalDead;
+    std::cout << aliveAfterExpedition << std::endl;
 
-std::vector<Employee*> MoonManager::getRemainingEmployees() {
-    return employees;
-}
-
-void MoonManager::resetEmployees() {
-    employees.clear();
+    return std::make_tuple(deadExplorers, deadOperators, totalRevenue);
 }
