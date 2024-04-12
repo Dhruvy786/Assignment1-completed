@@ -32,8 +32,6 @@ public:
 
     std::string moonWeatherToString(AbstractMoon::MoonWeather weather);
 
-    void route_to_moon(std::string moon_name);
-
     std::vector<std::string> getMoons();
 
     void setRandomWeather();
@@ -47,10 +45,6 @@ public:
         double scrapValueMultiplier,
         double explorerSaveChance,
         double lootRecoveryMultiplier);
-
-    int getRemainingEmployees();
-
-    void resetEmployees();
 };
 
 #endif // MOON_MANAGER_H

@@ -20,7 +20,7 @@ Game::Game() :
 	itemManager(),
 	moonManager(),
 	phase(GamePhase::Orbiting)
-	{
+{
 	for (int i = 0; i < 4; i++) {
 		Employee* employee = new Employee();
 		employees.push_back(employee);
@@ -33,47 +33,47 @@ void Game::initialiseGame() {
 	currentMoon = "Corporation";
 	remainingEmployees = 4;
 
-	show_welcome_screen();
+	showWelcomeScreen();
 
 	phase = GamePhase::Orbiting;
 }
 
-void Game::define_moons() {
+void Game::defineMoons() {
 
 }
 
-std::vector<std::string> Game::define_items() {
-	std::vector<std::string> commands = itemManager.show_store();
+std::vector<std::string> Game::defineItems() {
+	std::vector<std::string> commands = itemManager.showStore();
 
 	return commands;
 }
 
-void Game::show_welcome_screen() const {
+void Game::showWelcomeScreen() const {
 	std::cout << "    ___               _ _           ___                 \n" \
-					"   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
-					"  / /\\ / _ \\/ _` |/ _` | | | | |  / /  / _ \\| '__| '_ \\ \n" \
-					" / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
-					"/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
-					"                          |___/                  |_|    \n" << std::endl;
+		"   /   \\___  __ _  __| | |_   _    / __\\___  _ __ _ __  \n" \
+		"  / /\\ / _ \\/ _` |/ _` | | | | |  / /  / _ \\| '__| '_ \\ \n" \
+		" / /_//  __/ (_| | (_| | | |_| | / /__| (_) | |  | |_) |\n" \
+		"/___,' \\___|\\__,_|\\__,_|_|\\__, | \\____/\\___/|_|  | .__/ \n" \
+		"                          |___/                  |_|    \n" << std::endl;
 	std::cout << "Welcome!\n"
-					"We trust you will be a great asset to the corporation!\n\n"
-					"=============" << day << "============= \n"
-					"Current cargo value : $" << cargoValue << "\n"
-					"Current balance : $" << balance << "\n"
-					"Current quota : $" << quota << "(3 days left to meet quota)\n"
-					"Currently orbiting : " << currentMoon << "\n\n"
-					"> MOONS\n"
-					"To see the list of moons the autopilot can route to.\n\n"
-					"> STORE\n"
-					"To see the company store's selection of useful items.\n\n"
-					"> INVENTORY\n"
-					"To see the list of items you've already bought.\n\n" << std::endl;
+		"We trust you will be a great asset to the corporation!\n\n"
+		"=============" << day << "============= \n"
+		"Current cargo value : $" << cargoValue << "\n"
+		"Current balance : $" << balance << "\n"
+		"Current quota : $" << quota << "(3 days left to meet quota)\n"
+		"Currently orbiting : " << currentMoon << "\n\n"
+		"> MOONS\n"
+		"To see the list of moons the autopilot can route to.\n\n"
+		"> STORE\n"
+		"To see the company store's selection of useful items.\n\n"
+		"> INVENTORY\n"
+		"To see the list of items you've already bought.\n\n" << std::endl;
 }
 
 // Checks if the command is in the array of commands available
-bool Game::check_command(std::string& command, const std::vector<std::string>& commands) {
-	for (const auto& valid_command : commands) {
-		if (command == valid_command) {
+bool Game::checkCommand(std::string& command, const std::vector<std::string>& commands) {
+	for (const auto& validCommand : commands) {
+		if (command == validCommand) {
 			return true;
 		}
 	}
@@ -81,49 +81,52 @@ bool Game::check_command(std::string& command, const std::vector<std::string>& c
 	return false;
 }
 
-int Game::run_game() {
-	show_welcome_screen();
+int Game::runGame() {
+	showWelcomeScreen();
 	initialiseGame();
 	std::vector<std::string> startingCommands = { "moons", "store", "inventory" };
-	std::string chosenCommand = read_and_dispatch_commands(startingCommands);
-	std::string* cmdptr = &chosenCommand;
+	std::string chosenCommand = readAndDispatchCommands(startingCommands);
+	std::string* cmdPtr = &chosenCommand;
 	moonManager.setRandomWeather();
 
 	// Buy an item
-	if (*cmdptr == "store") {
-		std::vector<std::string> items = define_items();
-		std::string cmd = read_and_dispatch_commands(items);
+	if (*cmdPtr == "store") {
+		std::vector<std::string> items = defineItems();
+		std::string cmd = readAndDispatchCommands(items);
 		std::string itemName = cmd;
 		int newBalance = itemManager.buyItem(itemName);
-		update_balance(newBalance);
+		updateBalance(newBalance);
 	}
 
 	// Show inventory
-	else if (*cmdptr == "inventory") {
+	else if (*cmdPtr == "inventory") {
 		// Handle inventory command
 	}
 
 	// Go to moons
-	else if (*cmdptr == "moons") {
-		moonManager.show_moons();
+	else if (*cmdPtr == "moons") {
+		moonManager.showMoons();
 		std::cout << "Balance: " << balance << std::endl;
-		*cmdptr = read_and_dispatch_commands(moonManager.getMoons());
-		currentMoon = *cmdptr;
-		update_game_phase(GamePhase::Orbiting);
-		*cmdptr = read_and_dispatch_commands({ "land", "leave" });
-		if (*cmdptr == "land") {
+		*cmdPtr = readAndDispatchCommands(moonManager.getMoons());
+		currentMoon = *cmdPtr;
+		updateGamePhase(GamePhase::Orbiting);
+		*cmdPtr = readAndDispatchCommands({ "land", "leave" });
+		if (*cmdPtr == "land") {
 			// Land on moon
-			handle_land_command(currentMoon);
+			handleLandCommand(currentMoon);
+		}
+		else if (*cmdPtr == "leave") {
+			handleLeaveCommand();
 		}
 	}
 
 	return 0;
 }
 
-void Game::run_day_loop() {}
-	
+void Game::runDayLoop() {}
+
 // Reads the command and returns the chosen command 
-std::string Game::read_and_dispatch_commands(const std::vector<std::string>& commands) {
+std::string Game::readAndDispatchCommands(const std::vector<std::string>& commands) {
 	std::string* command = new std::string; // Allocate memory for command pointer
 	std::vector<std::string> tokens;
 	moonManager.setRandomWeather();
@@ -147,20 +150,20 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 
 		// Check if the first token is "route" and the second token is a valid moon name
 		if (tokens.size() >= 2 && tokens[0] == "route") {
-			std::string moon_name = tokens[1];
+			std::string moonName = tokens[1];
 
-			// Check if the moon_name exists in the moons vector
-			if (check_command(moon_name, commands)) {
+			// Check if the moonName exists in the moons vector
+			if (checkCommand(moonName, commands)) {
 				// Valid route command
-				std::cout << "Now orbiting " << moon_name << ". Use the LAND command to land." << std::endl;
-				currentMoon = moon_name;
+				std::cout << "Now orbiting " << moonName << ". Use the LAND command to land." << std::endl;
+				currentMoon = moonName;
 				// Proceed with routing logic
 				delete command; // Delete command pointer
-				return moon_name;
+				return moonName;
 			}
 			else {
 				// Invalid moon name
-				std::cout << "Invalid moon name: " << moon_name << std::endl;
+				std::cout << "Invalid moon name: " << moonName << std::endl;
 			}
 		}
 		else if (phase == GamePhase::Landed && tokens.size() >= 2 && tokens[0] == "send") {
@@ -178,7 +181,7 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 		else if (phase == GamePhase::Landed && tokens[0] == "send" && tokens.size() < 2) {
 			std::cout << "Bad command; the syntax is: \"send numberOfEmployees\"\n" << std::endl;
 		}
-		else if (check_command(tokens[0], commands)) {
+		else if (checkCommand(tokens[0], commands)) {
 			// Check if the command is valid
 			delete command; // Delete command pointer
 			return tokens[0];
@@ -200,10 +203,10 @@ std::string Game::read_and_dispatch_commands(const std::vector<std::string>& com
 }
 
 
-void Game::handle_land_command(std::string currentMoon) {
-	update_game_phase(GamePhase::Landed);
+void Game::handleLandCommand(std::string currentMoon) {
+	updateGamePhase(GamePhase::Landed);
 	AbstractMoon* moon = moonManager.moon(currentMoon);
-	update_current_moon(currentMoon);
+	updateCurrentMoon(currentMoon);
 	std::cout << "WELCOME TO " << moon->name() << "!\n"
 		<< "Current cargo value : $" << cargoValue << "\n"
 		<< "Current balance : $" << balance << "\n"
@@ -216,22 +219,22 @@ void Game::handle_land_command(std::string currentMoon) {
 		<< std::endl;
 
 	std::vector<std::string> commands = { "send", "leave" };
-	std::string sentEmployeesStr = read_and_dispatch_commands(commands);
+	std::string sentEmployeesStr = readAndDispatchCommands(commands);
 	while (sentEmployeesStr != "leave") {
 		std::cout << cargoValue << std::endl;
 		int sentEmployees = std::stoi(sentEmployeesStr);
 
 		// Call addEmployee method directly
 		auto expeditionResult = moonManager.addEmployee(
-			remainingEmployees, 
+			remainingEmployees,
 			sentEmployees,
-			moon->getBsc(), 
-			moon->getMinScrapValue(), 
+			moon->getBsc(),
+			moon->getMinScrapValue(),
 			moon->getMaxScrapValue(),
 			(1 * moon->getMultiplierValue()[1] * itemManager.calculator()[1]),
 			(1 * moon->getMultiplierValue()[2] * itemManager.calculator()[2]),
 			(1 * moon->getMultiplierValue()[0] * itemManager.calculator()[0]),
-			itemManager.calculator()[3], 
+			itemManager.calculator()[3],
 			itemManager.calculator()[4]
 		);
 
@@ -244,41 +247,41 @@ void Game::handle_land_command(std::string currentMoon) {
 		std::cout << returnedEmployees << " employees made it back to the ship, bringing $" << revenue << " worth of scrap. " << deadExplorers + deadOperators << " died." << std::endl;
 
 		if (remainingEmployees > 0) {
-			update_cargo_value(revenue);
+			updateCargoValue(revenue);
 		}
 
 		remainingEmployees = remainingEmployees - sentEmployees + returnedEmployees;
 
-		sentEmployeesStr = read_and_dispatch_commands(commands);
+		sentEmployeesStr = readAndDispatchCommands(commands);
 	}
 	std::cout << cargoValue << std::endl;
 }
 
-void Game::handle_leave_command() {
+void Game::handleLeaveCommand() {
+	phase = GamePhase::Orbiting;
+}
+
+void Game::handleExitCommand() {
 
 }
 
-void Game::handle_exit_command() {
-
-}
-
-void Game::update_balance(int amount) {
+void Game::updateBalance(int amount) {
 	balance = balance + amount;
 }
 
-void Game::update_current_moon(std::string moon_name) {
-
+void Game::updateCurrentMoon(std::string moonName) {
+	currentMoon = moonName;
 }
 
-int Game::update_game_phase(GamePhase phase) {
+int Game::updateGamePhase(GamePhase phase) {
 	this->phase = phase;
 	return 0;
 }
 
-void Game::update_cargo_value(int amount) {
+void Game::updateCargoValue(int amount) {
 	cargoValue = cargoValue + amount;
 }
 
-void Game::update_alive_employees(int count) {
+void Game::updateAliveEmployees(int count) {
 	remainingEmployees = count;
 }

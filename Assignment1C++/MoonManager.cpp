@@ -50,17 +50,6 @@ std::string MoonManager::moonWeatherToString(AbstractMoon::MoonWeather weather) 
     }
 }
 
-// Routes to a specified moon
-void MoonManager::route_to_moon(std::string moon_name) {
-    for (const auto& moon : moons) {
-        if (moon->name() == moon_name) {
-            std::cout << "Routing to " << moon_name << "...\n";
-            return;
-        }
-    }
-    std::cout << "Error: Moon '" << moon_name << "' not found!\n";
-}
-
 // Retrieves the names of all moons
 std::vector<std::string> MoonManager::getMoons() {
     std::vector<std::string> moonNames;
