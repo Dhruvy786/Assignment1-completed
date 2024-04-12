@@ -221,25 +221,18 @@ void Game::handle_land_command(std::string currentMoon) {
 		std::cout << cargoValue << std::endl;
 		int sentEmployees = std::stoi(sentEmployeesStr);
 
-		// Create pointers for variables
-		int* remainingEmpPtr = &remainingEmployees;
-		int* bscPtr = &moon->getBsc();
-		int* minScrapPtr = &moon->getMinScrapValue();
-		int* maxScrapPtr = &moon->getMaxScrapValue();
-		int* multiplier1Ptr = &moon->getMultiplierValue()[1];
-		int* multiplier2Ptr = &moon->getMultiplierValue()[2];
-		int* multiplier0Ptr = &moon->getMultiplierValue()[0];
-		int* item3Ptr = &itemManager.calculator()[3];
-		int* item4Ptr = &itemManager.calculator()[4];
-
-		// Call addEmployee method using pointers
-		std::tuple<int, int, int> expeditionResult = moonManager.addEmployee(
-			*remainingEmpPtr, sentEmployees,
-			*bscPtr, *minScrapPtr, *maxScrapPtr,
-			(1 * (*multiplier1Ptr) * itemManager.calculator()[1]),
-			(1 * (*multiplier2Ptr) * itemManager.calculator()[2]),
-			(1 * (*multiplier0Ptr) * itemManager.calculator()[0]),
-			*item3Ptr, *item4Ptr
+		// Call addEmployee method directly
+		auto expeditionResult = moonManager.addEmployee(
+			remainingEmployees, 
+			sentEmployees,
+			moon->getBsc(), 
+			moon->getMinScrapValue(), 
+			moon->getMaxScrapValue(),
+			(1 * moon->getMultiplierValue()[1] * itemManager.calculator()[1]),
+			(1 * moon->getMultiplierValue()[2] * itemManager.calculator()[2]),
+			(1 * moon->getMultiplierValue()[0] * itemManager.calculator()[0]),
+			itemManager.calculator()[3], 
+			itemManager.calculator()[4]
 		);
 
 		int deadExplorers = std::get<0>(expeditionResult);
