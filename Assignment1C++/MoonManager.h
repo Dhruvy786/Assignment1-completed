@@ -28,16 +28,16 @@ public:
 
     AbstractMoon* moon(std::string moonName);
 
-    void show_moons();
+    void showMoons();
 
     std::string moonWeatherToString(AbstractMoon::MoonWeather weather);
 
-    std::vector<std::string> getMoons();
+    std::vector<std::string> getMoonNames();
 
     void setRandomWeather();
 
-    std::tuple<int, int, int> addEmployee(int employees, int numExplorers,
-        double bsc,
+    std::tuple<int, int, int> addEmployee(int aliveEmployees, int numExplorers,
+        double baseSurvivalChance,
         int minScrapValue,
         int maxScrapValue,
         double explorerSurvivalChanceMultiplier,

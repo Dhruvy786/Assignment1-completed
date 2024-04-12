@@ -24,7 +24,7 @@ void ItemManager::showInventory() {
 }
 
 // Displays the items available for purchase in the store
-std::vector<std::string> ItemManager::show_store() {
+std::vector<std::string> ItemManager::showStore() {
     std::vector<std::string> commands;
 
     std::cout << "Available Items:\n";

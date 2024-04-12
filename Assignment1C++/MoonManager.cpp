@@ -13,6 +13,16 @@ void MoonManager::registerMoon(AbstractMoon* moon) {
     moons.push_back(moon);
 }
 
+std::vector<std::string> MoonManager::getMoonNames() {
+    std::vector<std::string> moonNames;
+
+    for (AbstractMoon* moon : moons) {
+        moonNames.push_back(moon->name());
+    }
+
+    return moonNames;
+}
+
 // Retrieves a moon object by its name
 AbstractMoon* MoonManager::moon(std::string moonName) {
     for (AbstractMoon* moon : moons) {
@@ -24,7 +34,7 @@ AbstractMoon* MoonManager::moon(std::string moonName) {
 }
 
 // Displays the list of moons available for routing
-void MoonManager::show_moons() {
+void MoonManager::showMoons() {
     std::cout << "Welcome to the exomoons catalogue.\n"
         "To route the autopilot to a moon, use the word ROUTE.\n"
         "---------------------------------------\n" << std::endl;
@@ -48,17 +58,6 @@ std::string MoonManager::moonWeatherToString(AbstractMoon::MoonWeather weather) 
     default:
         return "";
     }
-}
-
-// Retrieves the names of all moons
-std::vector<std::string> MoonManager::getMoons() {
-    std::vector<std::string> moonNames;
-
-    for (const auto& moon : moons) {
-        moonNames.push_back(moon->name());
-    }
-
-    return moonNames;
 }
 
 // Sets random weather for all moons

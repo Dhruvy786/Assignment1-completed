@@ -27,7 +27,7 @@ public:
 
     // Methods
     void showInventory();
-    std::vector<std::string> show_store();
+    std::vector<std::string> showStore();
     int buyItem(std::string itemName);
     std::vector<Item*> getBoughtItems();
     std::vector<float> calculator();

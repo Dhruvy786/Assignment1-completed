@@ -17,6 +17,8 @@ public:
 
     std::vector<std::string> defineItems();
 
+    void defineMoons();
+
     void showWelcomeScreen() const;
 
     bool checkCommand(std::string& command, const std::vector<std::string>& commands);

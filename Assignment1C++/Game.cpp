@@ -107,7 +107,7 @@ int Game::runGame() {
 	else if (*cmdPtr == "moons") {
 		moonManager.showMoons();
 		std::cout << "Balance: " << balance << std::endl;
-		*cmdPtr = readAndDispatchCommands(moonManager.getMoons());
+		*cmdPtr = readAndDispatchCommands(moonManager.getMoonNames());
 		currentMoon = *cmdPtr;
 		updateGamePhase(GamePhase::Orbiting);
 		*cmdPtr = readAndDispatchCommands({ "land", "leave" });
