@@ -1,5 +1,6 @@
 #include "MoonManager.h"
 
+// Constructor: initializes moons vector with predefined moon data
 MoonManager::MoonManager() {
     for (const auto& pair : moonMap) {
         AbstractMoon* moon = new AbstractMoon(pair.first, pair.second[0], pair.second[1], pair.second[2]);
@@ -7,10 +8,12 @@ MoonManager::MoonManager() {
     }
 }
 
+// Adds a moon to the moons vector
 void MoonManager::registerMoon(AbstractMoon* moon) {
     moons.push_back(moon);
 }
 
+// Retrieves a moon object by its name
 AbstractMoon* MoonManager::moon(std::string moonName) {
     for (AbstractMoon* moon : moons) {
         if (moon->name() == moonName) {
@@ -20,6 +23,7 @@ AbstractMoon* MoonManager::moon(std::string moonName) {
     return nullptr;
 }
 
+// Displays the list of moons available for routing
 void MoonManager::show_moons() {
     std::cout << "Welcome to the exomoons catalogue.\n"
         "To route the autopilot to a moon, use the word ROUTE.\n"
@@ -30,6 +34,7 @@ void MoonManager::show_moons() {
     std::cout << std::endl;
 }
 
+// Converts moon weather enum to string representation
 std::string MoonManager::moonWeatherToString(AbstractMoon::MoonWeather weather) {
     switch (weather) {
     case AbstractMoon::MoonWeather::Clear:
@@ -45,6 +50,7 @@ std::string MoonManager::moonWeatherToString(AbstractMoon::MoonWeather weather) 
     }
 }
 
+// Routes to a specified moon
 void MoonManager::route_to_moon(std::string moon_name) {
     for (const auto& moon : moons) {
         if (moon->name() == moon_name) {
@@ -55,6 +61,7 @@ void MoonManager::route_to_moon(std::string moon_name) {
     std::cout << "Error: Moon '" << moon_name << "' not found!\n";
 }
 
+// Retrieves the names of all moons
 std::vector<std::string> MoonManager::getMoons() {
     std::vector<std::string> moonNames;
 
@@ -65,6 +72,7 @@ std::vector<std::string> MoonManager::getMoons() {
     return moonNames;
 }
 
+// Sets random weather for all moons
 void MoonManager::setRandomWeather() {
     for (AbstractMoon* moon : moons) {
         int num = rd.generateRandomNumber(0, 4);
@@ -72,7 +80,7 @@ void MoonManager::setRandomWeather() {
     }
 }
 
-
+// Adds employees to a moon's expedition and calculates their survival and revenue
 std::tuple<int, int, int> MoonManager::addEmployee(int aliveEmployees,
     int numExplorers,
     double explorerBaseSurvivalChance,
@@ -98,7 +106,6 @@ std::tuple<int, int, int> MoonManager::addEmployee(int aliveEmployees,
     // Explore with numExplorers
     for (int i = 0; i < numExplorers; ++i) {
         int revenue = rd.generateInt((minScrapValue * scrapValueMultiplier), (maxScrapValue * scrapValueMultiplier));
-        std::cout << i << std::endl;
 
         if (rd.generateFloat() < explorerSurvivalChance) {
             totalRevenue += revenue;
@@ -113,7 +120,6 @@ std::tuple<int, int, int> MoonManager::addEmployee(int aliveEmployees,
     // Operators' fate
     for (int i = 0; i < numOperators; ++i) {
         if (rd.generateFloat() >= operatorSurvivalChance) {
-            std::cout << i << std::endl;
             // Operator dies
             ++deadOperators;
         }
@@ -121,11 +127,9 @@ std::tuple<int, int, int> MoonManager::addEmployee(int aliveEmployees,
 
     // Calculate total number of employees who died
     int totalDead = deadExplorers + deadOperators;
-    std::cout << totalDead << std::endl;
 
     // Calculate remaining alive employees
     int aliveAfterExpedition = aliveEmployees - totalDead;
-    std::cout << aliveAfterExpedition << std::endl;
 
     return std::make_tuple(deadExplorers, deadOperators, totalRevenue);
 }
