@@ -100,7 +100,12 @@ int Game::runGame() {
 
 	// Show inventory
 	else if (*cmdPtr == "inventory") {
-		// Handle inventory command
+		std::cout << "You currently have:" << std::endl;
+		for (Item* item : itemManager.getBoughtItems()) {
+			std::cout << "*" << item->getName() << std::endl;
+		}
+
+		std::cout << "" << std::endl;
 	}
 
 	// Go to moons
