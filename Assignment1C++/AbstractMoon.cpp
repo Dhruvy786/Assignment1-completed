@@ -8,14 +8,17 @@ AbstractMoon::AbstractMoon(std::string moonName, float minScrapValue, float maxS
     baseSurvivalChance(baseSurvivalChance),
     weather(MoonWeather::Clear) {}
 
+// Get the name of the moon
 const std::string& AbstractMoon::name() const {
     return moonName;
 }
 
+// Get the weather condition of the moon
 AbstractMoon::MoonWeather AbstractMoon::getWeather() const {
     return weather;
 }
 
+// Set the weather condition of the moon based on the given number
 void AbstractMoon::setWeather(int num) {
     if (num == 0) {
         this->weather = MoonWeather::Clear;
@@ -31,18 +34,22 @@ void AbstractMoon::setWeather(int num) {
     }
 }
 
+// Get the minimum scrap value of the moon
 float AbstractMoon::getMinScrapValue() {
     return minScrapValue;
 }
 
+// Get the maximum scrap value of the moon
 float AbstractMoon::getMaxScrapValue() {
     return maxScrapValue;
 }
 
+// Get the base survival chance of the moon
 float AbstractMoon::getBsc() {
     return baseSurvivalChance;
 }
 
+// Get the multiplier values for different weather conditions
 std::vector<float> AbstractMoon::getMultiplierValue() {
     std::vector<float> weatherConditions = { 1, 1, 1 };
     if (this->weather == MoonWeather::Flooded) {
