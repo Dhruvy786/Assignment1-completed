@@ -49,15 +49,16 @@ int ItemManager::buyItem(std::string itemName) {
     // Iterate through each item in the store
     for (Item* item : items) {
         // Check if the item name matches the desired item
-        if (itemName == item->getName()) {
+        if (item->getName() == itemName) {
             // Add the item to the boughtItems vector and update the balance
+            std::cout << item->getName() << std::endl;
             boughtItems.push_back(item);
             newBalance = item->getPrice();
             break;
         }
     }
 
-    return newBalance;
+    return -(newBalance);
 }
 
 // Get the list of bought items
