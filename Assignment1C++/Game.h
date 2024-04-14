@@ -5,7 +5,6 @@
 #include <string>
 #include "ItemManager.h"
 #include "MoonManager.h"
-#include "Employee.h"
 
 enum class GamePhase { Orbiting, Landed };
 
@@ -28,6 +27,10 @@ public:
     void runDayLoop();
 
     std::string readAndDispatchCommands(const std::vector<std::string>& commands);
+
+    int handleMoonCommands(AbstractMoon* moon);
+
+    std::string routeToMoon();
 
     void handleLandCommand(std::string currentMoon);
 
@@ -52,7 +55,6 @@ private:
     int day;
     std::string currentMoon;
     int remainingEmployees;
-    std::vector<Employee*> employees;
     ItemManager itemManager;
     MoonManager moonManager;
     GamePhase phase;

@@ -29,6 +29,9 @@ public:
     float getMaxScrapValue();
     float getBsc();
     std::vector<float> getMultiplierValue();
+    //virtual void onDayBegin(Game& g);
+    //virtual void sellCargo(Game& g, int amount);
+    //virtual void sendEmployees(Game& g, int count);
 };
 
 #endif // ABSTRACTMOON_H

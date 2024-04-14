@@ -26,6 +26,7 @@ public:
     ~ItemManager();
 
     // Methods
+    void registerItem(Item* item);
     void showInventory();
     std::vector<std::string> showStore();
     int buyItem(std::string itemName);

@@ -8,8 +8,13 @@ ItemManager::ItemManager() {
     // Initialize items from itemList
     for (const auto& pair : itemList) {
         // Create new Item objects and add them to the items vector
-        items.push_back(new Item(pair.first, pair.second[0], pair.second[1], pair.second[2], pair.second[3], pair.second[4], pair.second[5]));
+        Item* item = new Item(pair.first, pair.second[0], pair.second[1], pair.second[2], pair.second[3], pair.second[4], pair.second[5]);
+        registerItem(item);
     }
+}
+
+void ItemManager::registerItem(Item* item) {
+    items.push_back(item);
 }
 
 // Displays the player's inventory

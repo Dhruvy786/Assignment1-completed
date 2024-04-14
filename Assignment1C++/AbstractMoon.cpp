@@ -1,5 +1,6 @@
 #include <vector>
 #include "AbstractMoon.h"
+#include "Game.h"
 
 AbstractMoon::AbstractMoon(std::string moonName, float minScrapValue, float maxScrapValue, float baseSurvivalChance) :
     moonName(moonName),
@@ -64,3 +65,15 @@ std::vector<float> AbstractMoon::getMultiplierValue() {
 
     return weatherConditions;
 }
+
+//void AbstractMoon::onDayBegin(Game& g) {
+    
+//}
+
+//void AbstractMoon::sellCargo(Game& g, int amount) {
+    
+//}
+
+//void AbstractMoon::sendEmployees(Game& g, int count) {
+    
+//}
