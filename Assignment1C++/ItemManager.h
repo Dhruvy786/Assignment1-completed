@@ -30,6 +30,7 @@ public:
     std::vector<std::string> showStore();
     int buyItem(std::string itemName);
     std::vector<Item*> getBoughtItems();
+    void showBoughtItems();
     std::vector<float> calculator();
 };
 

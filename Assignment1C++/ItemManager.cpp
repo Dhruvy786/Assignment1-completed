@@ -60,6 +60,12 @@ std::vector<Item*> ItemManager::getBoughtItems() {
     return boughtItems;
 }
 
+void ItemManager::showBoughtItems() {
+    for (Item* item : items) {
+        std::cout << "*" << item->getName() << std::endl;
+    }
+}
+
 // Calculate multiplier values based on bought items
 std::vector<float> ItemManager::calculator() {
     std::vector<float> multiplierValues = { 1, 1, 1, 1, 1 };

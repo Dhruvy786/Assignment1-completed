@@ -89,39 +89,45 @@ int Game::runGame() {
 	std::string* cmdPtr = &chosenCommand;
 	moonManager.setRandomWeather();
 
-	// Buy an item
-	if (*cmdPtr == "store") {
-		std::vector<std::string> items = defineItems();
-		std::string cmd = readAndDispatchCommands(items);
-		std::string itemName = cmd;
-		int newBalance = itemManager.buyItem(itemName);
-		updateBalance(newBalance);
-	}
-
-	// Show inventory
-	else if (*cmdPtr == "inventory") {
-		std::cout << "You currently have:" << std::endl;
-		for (Item* item : itemManager.getBoughtItems()) {
-			std::cout << "*" << item->getName() << std::endl;
+	while (*cmdPtr != "exit") {
+		// Buy an item
+		if (*cmdPtr == "store") {
+			std::vector<std::string> items = defineItems();
+			std::string cmd = readAndDispatchCommands(items);
+			std::string itemName = cmd;
+			int newBalance = itemManager.buyItem(itemName);
+			updateBalance(newBalance);
 		}
 
-		std::cout << "" << std::endl;
-	}
+		// Show inventory
+		else if (*cmdPtr == "inventory") {
+			std::cout << "The following items are available.\n"
+						 "---------------------------------------" << std::endl;
+			if (itemManager.getBoughtItems().size() > 0) {
+				itemManager.showBoughtItems();
+			}
+			else {
+				std::cout << "(Empty)" << std::endl;
+			}
 
-	// Go to moons
-	else if (*cmdPtr == "moons") {
-		moonManager.showMoons();
-		std::cout << "Balance: " << balance << std::endl;
-		*cmdPtr = readAndDispatchCommands(moonManager.getMoonNames());
-		currentMoon = *cmdPtr;
-		updateGamePhase(GamePhase::Orbiting);
-		*cmdPtr = readAndDispatchCommands({ "land", "leave" });
-		if (*cmdPtr == "land") {
-			// Land on moon
-			handleLandCommand(currentMoon);
+			std::cout << "" << std::endl;
 		}
-		else if (*cmdPtr == "leave") {
-			handleLeaveCommand();
+
+		// Go to moons
+		else if (*cmdPtr == "moons") {
+			moonManager.showMoons();
+			std::cout << "Balance: " << balance << std::endl;
+			*cmdPtr = readAndDispatchCommands(moonManager.getMoonNames());
+			currentMoon = *cmdPtr;
+			updateGamePhase(GamePhase::Orbiting);
+			*cmdPtr = readAndDispatchCommands({ "land", "leave" });
+			if (*cmdPtr == "land") {
+				// Land on moon
+				handleLandCommand(currentMoon);
+			}
+			else if (*cmdPtr == "leave") {
+				handleLeaveCommand();
+			}
 		}
 	}
 
